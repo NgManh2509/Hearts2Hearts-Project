@@ -1,158 +1,147 @@
-import React, {useState, useEffect, useRef} from 'react'
-import {motion, useMotionValue, useTransform, useSpring} from 'framer-motion'
-import { LIQUID_MAP } from '../support/liquidMap'
-
+import React, { useRef } from 'react';
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 import homePageIcon from '../assets/iconBar/homePage.png';
-import memberIcon from '../assets/iconBar/member.png';
-import galleryIcon from '../assets/iconBar/gallery.png';
+import memberIcon   from '../assets/iconBar/member.png';
+import galleryIcon  from '../assets/iconBar/gallery.png';
 import musicAppIcon from '../assets/iconBar/musicApp.png';
 import scheduleIcon from '../assets/iconBar/schedule.png';
-import fancamIcon from '../assets/iconBar/fancam.png';
+import fancamIcon   from '../assets/iconBar/fancam.png';
+import albumIcon    from '../assets/iconBar/albums.png';
 
 const iconData = [
-    { name: "Home", src : homePageIcon },
-    { name: "Member", src : memberIcon },
-    { name: "Gallery", src : galleryIcon },
-    { name: "Music", src : musicAppIcon },
-    { name: "Calender", src : scheduleIcon },
-    { name: "Stages", src : fancamIcon },
-]
+  { name: "Home",     src: homePageIcon },
+  { name: "Member",   src: memberIcon   },
+  { name: "Gallery",  src: galleryIcon  },
+  { name: "Music",    src: musicAppIcon },
+  { name: "Calender", src: scheduleIcon },
+  { name: "Stages",   src: fancamIcon   },
+  { name: "Albums",   src: albumIcon    },
+];
 
-const LIQUID_CONFIG = {
-    scale:2.0,
-    offsetX:0.0,
-    offsetY:0.1,
-}
+/* ─── AppIcon — macOS Dock magnify ─── */
+function AppIcon({ item, onClick, mouseX }) {
+  const ref = useRef(null);
 
-const computedSVG_X = ((1 - LIQUID_CONFIG.scale) / 2) + LIQUID_CONFIG.offsetX;
-const computedSVG_Y = ((1 - LIQUID_CONFIG.scale) / 2) + LIQUID_CONFIG.offsetY;
+  const springConfig = { mass: 0.1, stiffness: 200, damping: 15 };
 
-function AppIcon({item, onHomeClick, onMemberClick, onGalleryClick, onMusicClick, onCalenderClick, onStagesClick, mouseX}){
-  let ref = useRef(null);
-
-  // Tính khoảng cách từ y của chuột đến tâm y của icon này
-  let distance = useTransform(mouseX, (val) => {
-    let bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
+  const distance = useTransform(mouseX, (val) => {
+    const bounds = ref.current?.getBoundingClientRect() ?? { x: 0, width: 0 };
     return val - bounds.x - bounds.width / 2;
   });
 
-  let scaleSync = useTransform(distance, [-200, 0, 200], [1, 2, 1]);
-  let scale = useSpring(scaleSync, { mass: 0.1, stiffness: 250, damping: 15 });
-  
-  let heightSync = useTransform(scaleSync, [1, 2], [70, 140]);
-  let dynamicHeight = useSpring(heightSync, { mass: 0.1, stiffness: 250, damping: 15 });
+  const scaleSync = useTransform(distance, [-150, 0, 150], [1, 1.8, 1]);
+  const scale     = useSpring(scaleSync, springConfig);
 
-  // Width thay đổi theo scale làm dock giãn ngang tự nhiên
-  let widthSync = useTransform(scaleSync, [1, 2], [48, 96]);
-  let dynamicWidth = useSpring(widthSync, { mass: 0.1, stiffness: 250, damping: 15 });
+  const widthSync = useTransform(scaleSync, [1, 1.8], [48, 86]);
+  const dynWidth  = useSpring(widthSync, springConfig);
 
-  let zIndex = useTransform(scaleSync, (v) => Math.round(v * 10));
+  const zIndex    = useTransform(scaleSync, (v) => Math.round(v * 10));
 
-  // Tọa độ Y sẽ lùi dần lên (âm) khi chuột đến gần tâm của icon
-  let ySync = useTransform(distance, [-150, 0, 150], [0, -25, 0]);
-  let yOffset = useSpring(ySync, { mass: 0.1, stiffness: 250, damping: 15 });
+  const ySync     = useTransform(distance, [-150, 0, 150], [0, -10, 0]);
+  const yOffset   = useSpring(ySync, springConfig);
 
   return (
-    <motion.div 
-        ref={ref}
-        style={{
-            height: dynamicHeight, 
-            width: dynamicWidth, 
-            zIndex: zIndex,
-        }}
-        key={item.name} 
-        onClick={() => {
-            if (item.name === "Home" && onHomeClick) onHomeClick();
-            if (item.name === "Member"  && onMemberClick)  onMemberClick();
-            if (item.name === "Gallery" && onGalleryClick) onGalleryClick();
-            if (item.name === "Music"  && onMusicClick)  onMusicClick();
-            if (item.name === "Calender"  && onCalenderClick)  onCalenderClick();
-            if (item.name === "Stages"  && onStagesClick)  onStagesClick();
-        }}
-        className="relative flex items-center justify-center cursor-pointer w-full"
+    <motion.div
+      ref={ref}
+      style={{ width: dynWidth, zIndex, flexShrink: 0 }}
+      onClick={onClick}
+      className="relative flex items-end justify-center cursor-pointer h-full pb-2"
     >
-        <motion.div 
-            style={{ 
-                scale: scale,
-                y: yOffset,
-                originX: 0 
-            }}
-            className="absolute flex flex-col items-center justify-center pointer-events-none"
-        >
-            <img src={item.src} alt={item.name} draggable="false" className="w-12 h-12 object-contain drop-shadow-xl" />
-            <span className="text-xs mt-1 font-medium text-white select-none">{item.name}</span>
-        </motion.div>
+      <motion.div
+        style={{ scale, y: yOffset, transformOrigin: 'bottom center' }}
+        className="absolute bottom-2 flex flex-col items-center pointer-events-none"
+      >
+        <img
+          src={item.src}
+          alt={item.name}
+          draggable="false"
+          className="w-12 h-12 object-contain drop-shadow-xl"
+        />
+        <span className="text-[11px] mt-1 font-serif-h2h font-bold text-[#75BEE9] drop-shadow-sm select-none">
+          {item.name}
+        </span>
+      </motion.div>
     </motion.div>
-  )
+  );
 }
 
-
-const IconBar = ({onHomeClick, onMemberClick, onGalleryClick, onMusicClick, onCalenderClick, onStagesClick}) => {
-
+/* ─── IconBar — Glassmorphism ─── */
+const IconBar = ({
+  onHomeClick,
+  onMemberClick,
+  onGalleryClick,
+  onMusicClick,
+  onCalenderClick,
+  onStagesClick,
+  onAlbumsClick,
+}) => {
   const mouseX = useMotionValue(Infinity);
 
+  const getClickHandler = (name) => {
+    switch (name) {
+      case "Home":     return onHomeClick;
+      case "Member":   return onMemberClick;
+      case "Gallery":  return onGalleryClick;
+      case "Music":    return onMusicClick;
+      case "Calender": return onCalenderClick;
+      case "Stages":   return onStagesClick;
+      case "Albums":   return onAlbumsClick;
+      default:         return () => {};
+    }
+  };
+
   return (
-    <>
-        <style>{`
-        .no-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
+    <div
+      onMouseMove={(e) => mouseX.set(e.clientX)}
+      onMouseLeave={() => mouseX.set(Infinity)}
+      style={{
+        position:  'fixed',
+        bottom:    24,
+        left:      '50%',
+        transform: 'translateX(-50%)',
+        zIndex:    50,
+        width:     'max-content',
+        isolation: 'isolate',
+      }}
+    >
+      {/* ── Glassmorphism dock ── */}
       <div
-        onMouseMove={(e) => mouseX.set(e.clientX)}
-        onMouseLeave={() => mouseX.set(Infinity)}
-        id='icon-bar-container'
-        className="no-scrollbar
-            fixed bottom-[24px] left-1/2 -translate-x-1/2 z-50
-            flex flex-row gap-7 items-center
-            h-[85px] w-max
-            border-2 border-transparent
-            bg-white/[0.08] rounded-[16px] px-6
-            shadow-[0_0_0_2px_rgba(255,255,255,0.6),0_16px_32px_rgba(0,0,0,0.12)]"
         style={{
-           backdropFilter: 'url(#liquid-frosted)', 
-           WebkitBackdropFilter: 'url(#liquid-frosted)',
-           msOverflowStyle: 'none',
-           scrollbarWidth: 'none',
+          display:          'flex',
+          flexDirection:    'row',
+          alignItems:       'flex-end',
+          gap:              '20px',
+          height:           '85px',
+          padding:          '0 20px',
+          /* Glass core */
+          background:       'rgba(255, 255, 255, 0.12)',
+          backdropFilter:   'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          /* Border */
+          border:           '1px solid rgba(255, 255, 255, 0.3)',
+          borderBottom:     '1px solid rgba(255, 255, 255, 0.15)',
+          borderRadius:     '24px',
+          /* Shadow */
+          boxShadow: [
+            '0 8px 32px rgba(0, 0, 0, 0.35)',
+            '0 2px 8px  rgba(0, 0, 0, 0.25)',
+            'inset 0 1px 0 rgba(255, 255, 255, 0.4)',
+            'inset 0 -1px 0 rgba(255, 255, 255, 0.1)',
+          ].join(', '),
         }}
       >
-            {iconData.map((item, index) => (
-                <AppIcon 
-                    key={index} 
-                    item={item} 
-                    onHomeClick={onHomeClick}
-                    onMemberClick={onMemberClick}
-                    onGalleryClick={onGalleryClick}
-                    onMusicClick={onMusicClick}
-                    onCalenderClick={onCalenderClick}
-                    onStagesClick={onStagesClick}
-                    mouseX={mouseX}
-                />
-            ))}
-      </div>
-      <svg className="absolute w-0 h-0" aria-hidden="true" xmlns="http://www.w3.org/1999/xlink">
-        <filter id="liquid-frosted" primitiveUnits="objectBoundingBox" x="-50%" y="-50%" width="200%" height="200%">
-          <feImage 
-            href={LIQUID_MAP}
-            x={computedSVG_X}
-            y={computedSVG_Y}
-            width={LIQUID_CONFIG.scale}
-            height={LIQUID_CONFIG.scale}
-            result="map" 
-            preserveAspectRatio="xMidYMid slice"
+        {iconData.map((item, index) => (
+          <AppIcon
+            key={index}
+            item={item}
+            onClick={getClickHandler(item.name)}
+            mouseX={mouseX}
           />
-          
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.02" result="blur" />
-          
-          <feDisplacementMap id="disp" in="blur" in2="map" scale="1" xChannelSelector="R" yChannelSelector="G">
-            <animate attributeName="scale" to="1.4" dur="0.3s" begin="icon-bar-container.mouseover" fill="freeze" />
-            <animate attributeName="scale" to="1" dur="0.3s" begin="icon-bar-container.mouseout" fill="freeze" />
-          </feDisplacementMap>
-        </filter>
-      </svg>
-    </>
-  )
-}
+        ))}
+      </div>
+    </div>
+  );
+};
 
-export default IconBar
+export default IconBar;
