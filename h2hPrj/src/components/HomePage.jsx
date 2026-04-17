@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import TextHighlighter from '../support/textHighLight';
 import h2hLogo from '../assets/h2hLogo.svg';
-import img1 from '../assets/homePageImg/homePage1.webp';
-import img2 from '../assets/homePageImg/homePage (2).webp';
-import img3 from '../assets/homePageImg/homePage (1).webp';
+import cam1 from '../assets/homePageImg/cam1.webm';
+import cam2 from '../assets/homePageImg/cam2.webm';
+import img1 from '../assets/homePageImg/grpPhoto.jpg';
 
 const MEMBER = ['Jiwoo', 'Carmen', 'Yuha', 'Stella', 'Juun', 'A-na', 'Ian', 'Ye-on'];
 
@@ -11,9 +11,12 @@ export default function HomePage() {
   return (
     <div className="relative w-full h-full overflow-hidden bg-[#FAFAFA] select-none text-[#75BEE9] backdrop-blur-3xl">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@800;900&family=Permanent+Marker&family=Syne:wght@800&family=Dancing+Script:wght@700&display=swap');
         .font-serif-h2h { font-family: "Playfair Display", "Times New Roman", Times, serif; }
         .font-sans-h2h { font-family: "Montserrat", "Arial Black", sans-serif; font-weight: 900; }
+        .font-rude { font-family: "Permanent Marker", cursive; }
+        .font-focus { font-family: "Syne", sans-serif; font-weight: 800; letter-spacing: -0.02em; }
+        .font-style { font-family: "Dancing Script", cursive; font-weight: 700; text-transform: capitalize; }
         .h2h-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
         .h2h-stroke { 
             -webkit-text-stroke: 2px #75BEE9; 
@@ -91,12 +94,7 @@ export default function HomePage() {
         transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
         className="absolute top-[4%] left-[4%] w-[58%] h-[48%] rounded-[2vw] overflow-hidden h2h-shadow group"
       >
-        <img 
-            src={img3} 
-            alt="Heart2Hearts Photo 1" 
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
-            draggable={false} 
-        />
+        <video src={cam2} autoPlay playsInline loop muted className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" draggable={false} />
       </motion.div>
 
       {/* BRAND NAME - HEART logo HEARTS */}
@@ -104,15 +102,14 @@ export default function HomePage() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-        className="absolute top-[53.5%] left-[12%] w-[52%] flex items-center gap-0"
+        className="absolute top-[54%] left-[12%] w-[52%] flex items-center gap-0"
       >
-        <span className="font-serif-h2h font-bold tracking-tight uppercase pb-[2vw]" style={{ fontSize: 'clamp(32px, 5.5vw, 80px)', lineHeight: 1 }}>
+        <span className="font-serif-h2h font-bold tracking-tight uppercase" style={{ fontSize: 'clamp(32px, 5.5vw, 80px)', lineHeight: 1 }}>
           HEART
         </span>
         <img 
             src={h2hLogo} 
             alt="H2H" 
-            className='rotate-10'
             style={{ width: 'clamp(36px, 6vw, 90px)', height: 'clamp(36px, 6vw, 90px)', flexShrink: 0, marginTop: '-0.3vw' }} 
         />
         <span className="font-serif-h2h font-bold tracking-tight uppercase" style={{ fontSize: 'clamp(32px, 5.5vw, 80px)', lineHeight: 1 }}>
@@ -212,15 +209,15 @@ export default function HomePage() {
 
       {/* BIG HIGHLIGHT TEXT */}
       {/*Track list*/}
-      <div className="absolute top-[0%] right-[10%] w-[25%] flex flex-col font-sans-h2h tracking-tighter uppercase scale-[0.7]" style={{ fontSize: 'clamp(50px, 8.5vw, 130px)', lineHeight: '0.85' }}>
+      <div className="absolute top-[-1.5%] right-[15%] w-[25%] flex flex-col tracking-tighter scale-[0.7]" style={{ fontSize: 'clamp(50px, 8.5vw, 130px)', lineHeight: '0.9' }}>
         
         {/* 01 RUDE! */}
-        <div className="flex items-start">
+        <div className="flex items-start font-rude uppercase">
             <span className="text-black font-black font-sans tracking-widest mt-[0.5vw] mr-[0.5vw]" style={{ fontSize: 'clamp(12px, 1.5vw, 24px)' }}>01</span>
             <TextHighlighter 
                 triggerType="auto" 
                 highlightColor="#75BEE9" 
-                className="text-white px-[1vw] pt-[0.2vw] pb-[0.8vw]"
+                className="text-white px-[1vw] pt-[0.2vw] pb-[0.8vw] rounded-[5px]"
                 transition={{ duration: 0.6, delay: 0.2 }}
             >
                 RUDE!
@@ -228,11 +225,11 @@ export default function HomePage() {
         </div>
 
         {/* FOCUS 02 */}
-        <div className="mt-[-0.2vw] flex items-start ml-[6vw]">
+        <div className="mt-[-0.2vw] flex items-start ml-[6vw] font-focus uppercase">
             <TextHighlighter 
                 triggerType="auto" 
                 highlightColor="#75BEE9" 
-                className="text-white px-[1vw] pt-[0.2vw] pb-[0.8vw]"
+                className="text-white px-[1vw] pt-[0.2vw] pb-[0.8vw] rounded-[5px]"
                 transition={{ duration: 0.6, delay: 0.4 }}
             >
                 FOCUS
@@ -241,15 +238,15 @@ export default function HomePage() {
         </div>
 
         {/* 03 STYLE */}
-        <div className="mt-[-0.2vw] flex items-start ml-[-2vw]">
-            <span className="text-black font-black font-sans tracking-widest mt-[0.5vw] mr-[0.5vw]" style={{ fontSize: 'clamp(12px, 1.5vw, 24px)' }}>03</span>
+        <div className="mt-[-1vw] flex items-start ml-[-2vw] font-style" style={{ fontSize: '1.2em' }}>
+            <span className="text-black font-black font-sans tracking-widest mt-[1vw] mr-[0.5vw]" style={{ fontSize: 'clamp(10px, 1.25vw, 20px)' }}>03</span>
             <TextHighlighter 
                 triggerType="auto" 
                 highlightColor="#75BEE9" 
-                className="text-white px-[1vw] pt-[0.2vw] pb-[0.8vw]"
+                className="text-white px-[1vw] pt-[0.2vw] pb-[1.5vw] rounded-[5px]"
                 transition={{ duration: 0.6, delay: 0.6 }}
             >
-                STYLE
+                Style
             </TextHighlighter>
         </div>
       </div>
@@ -261,12 +258,7 @@ export default function HomePage() {
         transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
         className="absolute bottom-[2%] right-[4%] w-[33%] h-[60%] justify-end rounded-[2vw] overflow-hidden h2h-shadow group"
       >
-        <img 
-            src={img2} 
-            alt="Heart2Hearts Photo 3" 
-            className="w-full h-full object-cover object-[center_30%] group-hover:scale-105 transition-transform duration-700 ease-out" 
-            draggable={false} 
-        />
+        <video src={cam1} autoPlay playsInline loop muted className="w-full h-full object-cover object-[center_20%] group-hover:scale-105 transition-transform duration-700 ease-out" draggable={false} />
       </motion.div>
 
     </div>
