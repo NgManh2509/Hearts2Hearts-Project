@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useMotionValue } from 'framer-motion';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 
 /* ─── Spring presets ─── */
@@ -9,6 +9,31 @@ const CONTENT_SPRING = { type: 'spring', stiffness: 500, damping: 36 };
 const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext }) => {
   const [isControls, setIsControls] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
+
+  const containerScale = useMotionValue(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth;
+      // Fluid responsiveness for different screen sizes
+      if (width >= 1536) {
+        containerScale.set(1);
+      } else if (width >= 1024) {
+        // Desktop responsiveness: smooth scale between 1024px and 1536px
+        containerScale.set(0.8 + ((width - 1024) / (1536 - 1024)) * 0.2);
+      } else if (width >= 768) {
+        // Tablet: smooth scale between 768px and 1024px
+        containerScale.set(0.7 + ((width - 768) / (1024 - 768)) * 0.1);
+      } else {
+        // Mobile
+        containerScale.set(0.55 + ((Math.max(width, 320) - 320) / (768 - 320)) * 0.15);
+      }
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, [containerScale]);
 
   const handleCardClick = (e) => {
     if (e.target.closest('button')) return;
@@ -23,11 +48,18 @@ const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext })
         /* Root slide-in from right */
         <motion.div
           key="miniplayer-root"
-          initial={{ x: 100, opacity: 0, scale: 0.9 }}
-          animate={{ x: 0, opacity: 1, scale: 1 }}
-          exit={{ x: 100, opacity: 0, scale: 0.9 }}
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 100, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 340, damping: 26 }}
-          style={{ position: 'fixed', top: 20, right: 20, zIndex: 60 }}
+          style={{
+            position: 'fixed',
+            top: 20,
+            right: 20,
+            zIndex: 60,
+            scale: containerScale,
+            transformOrigin: 'top right'
+          }}
         >
           {/* ─── Shape-morphing container ─── */}
           <motion.div

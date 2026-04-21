@@ -47,7 +47,7 @@ function App() {
   }
 
   return (
-    <div className="relative w-full h-screen overflow-hidden bg-black">
+    <div className="relative w-full h-screen overflow-hidden bg-white">
       <AnimatePresence mode="wait">
         {activeTab === 'home' && (
           <motion.div

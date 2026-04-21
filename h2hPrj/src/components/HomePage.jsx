@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import Waves from '../../@/components/Waves';
 import TextHighlighter from '../support/textHighLight';
 import h2hLogo from '../assets/h2hLogo.svg';
 import cam1 from '../assets/homePageImg/cam1.webm';
@@ -9,7 +10,8 @@ const MEMBER = ['Jiwoo', 'Carmen', 'Yuha', 'Stella', 'Juun', 'A-na', 'Ian', 'Ye-
 
 export default function HomePage() {
   return (
-    <div className="relative w-full h-full overflow-hidden bg-[#FAFAFA] select-none text-[#75BEE9] backdrop-blur-3xl">
+    // Đổi h-full thành min-h-screen và thêm flex-col cho mobile. Trên Desktop (lg) trả lại h-screen và overflow-hidden.
+    <div className="relative w-full min-h-screen lg:h-screen overflow-x-hidden lg:overflow-hidden bg-[#FAFAFA] select-none text-[#75BEE9] backdrop-blur-3xl flex flex-col lg:block pt-12 lg:pt-0 pb-20 lg:pb-0 gap-12 lg:gap-0">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@800;900&family=Permanent+Marker&family=Syne:wght@800&family=Dancing+Script:wght@700&display=swap');
         .font-serif-h2h { font-family: "Playfair Display", "Times New Roman", Times, serif; }
@@ -24,55 +26,35 @@ export default function HomePage() {
         }
       `}</style>
 
-      {/* MINIMALISTIC AMBIENT BACKGROUND */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-[#FAFAFA] via-[#F4F7FB] to-[#EEF5FA] opacity-80" />
-      
-      {/* GEOMETRIC PATTERN (MODERN DOT GRID) */}
-      <div 
-        className="pointer-events-none absolute inset-0"
-        style={{ 
-          backgroundImage: 'radial-gradient(rgba(117, 190, 233, 0.25) 1px, transparent 1.5px)', 
-          backgroundSize: '2vw 2vw' 
-        }}
-      />
-
-      {/* BREATHE EFFECT (SUBTLE GLOWS) */}
-      <motion.div
-        className="pointer-events-none absolute top-[-10%] left-[-10%] w-[40vw] h-[40vw] rounded-full blur-[8vw]"
-        style={{ background: 'radial-gradient(circle, rgba(117,190,233,0.15) 0%, rgba(250,250,250,0) 70%)' }}
-        animate={{ 
-          x: [0, 40, 0], 
-          scale: [1, 1.05, 1],
-        }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="pointer-events-none absolute bottom-[5%] right-[-5%] w-[45vw] h-[45vw] rounded-full blur-[10vw]"
-        style={{ background: 'radial-gradient(circle, rgba(117,190,233,0.12) 0%, rgba(250,250,250,0) 70%)' }}
-        animate={{ 
-          y: [0, -30, 0], 
-          scale: [1, 1.1, 1]
-        }}
-        transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-      />
-
-      <div className="absolute top-[3%] right-[4%] text-[0.6vw] tracking-[0.2em] font-sans-h2h text-[#75BEE9]/60 text-right">
-        <span>COLLECTIONS</span><br />
-        <span className="opacity-50">S/S 2024</span>
+      {/* WAVES BACKGROUND - Chuyển sang fixed để hỗ trợ cuộn trên mobile */}
+      <div className="fixed inset-0 w-full h-full opacity-60 pointer-events-none z-0">
+        <Waves
+          lineColor="#75BEE9"
+          backgroundColor="transparent"
+          waveSpeedX={0.02}
+          waveSpeedY={0.01}
+          waveAmpX={40}
+          waveAmpY={20}
+          friction={0.9}
+          tension={0.01}
+          maxCursorMove={120}
+          xGap={12}
+          yGap={36}
+        />
       </div>
 
-      <div className="absolute bottom-[4%] right-[2%] transform -rotate-90 origin-bottom-right text-[0.6vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/50 flex items-center gap-[1vw]">
+      {/* TYPOGRAPHY TRANG TRÍ CHỈ HIỆN TRÊN DESKTOP ĐỂ TRÁNH RÁC MOBILE */}
+      <div className="hidden lg:block absolute top-[3%] right-[4%] text-[0.6vw] tracking-[0.2em] font-sans-h2h text-[#75BEE9]/60 text-right z-0">
+        <span>COLLECTIONS</span><br />
+        <span className="opacity-50">S2U 2024</span>
+      </div>
+
+      <div className="hidden lg:flex absolute bottom-[4%] right-[2%] transform -rotate-90 origin-bottom-right text-[0.6vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/50 items-center gap-[1vw] z-0">
         <span>PROJECT HEARTS</span>
         <span className="w-[3vw] h-[1px] bg-[#75BEE9]/40"></span>
       </div>
 
-      {/* SUBTLE ARCHITECTURAL CROSSHAIRS */}
-      <div className="pointer-events-none absolute top-[15%] right-[28%] text-[0.8vw] text-[#75BEE9]/50 font-sans-h2h">+</div>
-      <div className="pointer-events-none absolute bottom-[22%] left-[25%] text-[0.8vw] text-[#75BEE9]/50 font-sans-h2h">+</div>
-      <div className="pointer-events-none absolute top-[45%] right-[10%] text-[0.8vw] text-[#75BEE9]/50 font-sans-h2h">+</div>
-
-      {/* ANIMATED SCROLL INDICATOR */}
-      <div className="absolute bottom-[3%] left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-[0.5vw]">
+      <div className="hidden lg:flex absolute bottom-[3%] left-1/2 transform -translate-x-1/2 flex-col items-center gap-[0.5vw] z-0">
         <span className="text-[0.5vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/70 uppercase ml-[0.3em]">Scroll</span>
         <div className="w-[1px] h-[5vh] bg-[#75BEE9]/20 overflow-hidden relative">
           <motion.div 
@@ -83,16 +65,49 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* =========================================================================
-          LEFT SIDE 
-      ========================================================================= */}
+      {/* Track list */}
+      <div className="relative lg:absolute lg:top-[2%] lg:right-[18%] xl:right-[22%] xl:top-[5%] w-full lg:w-[35%] xl:w-[20%] flex flex-col tracking-tighter scale-90 lg:scale-[0.6] xl:scale-[0.7] transform origin-top-right z-10 items-center lg:items-start" style={{ fontSize: 'clamp(40px, 8.5vw, 130px)', lineHeight: '0.9' }}>
+        <div className="flex items-start font-rude uppercase lg:w-full">
+            <span className="text-black font-black font-sans tracking-widest mt-2 lg:mt-[0.5vw] mr-2 lg:mr-[0.5vw]" style={{ fontSize: 'clamp(12px, 1.5vw, 24px)' }}>01</span>
+            <TextHighlighter 
+                triggerType="auto" 
+                highlightColor="#75BEE9" 
+                className="text-white px-4 lg:px-[1vw] pt-[0.2vw] pb-[0.8vw] rounded-[5px]"
+                transition={{ duration: 0.6, delay: 0.2 }}
+            >
+                RUDE!
+            </TextHighlighter>
+        </div>
+        <div className="mt-0 lg:mt-[-0.2vw] flex items-start ml-16 lg:ml-[6vw] font-focus uppercase lg:w-full">
+            <TextHighlighter 
+                triggerType="auto" 
+                highlightColor="#75BEE9" 
+                className="text-white px-4 lg:px-[1vw] pt-[0.2vw] pb-[0.8vw] rounded-[5px]"
+                transition={{ duration: 0.6, delay: 0.4 }}
+            >
+                FOCUS
+            </TextHighlighter>
+            <span className="text-black font-black font-sans tracking-widest mt-2 lg:mt-[0.5vw] ml-2 lg:ml-[0.5vw]" style={{ fontSize: 'clamp(12px, 1.5vw, 24px)' }}>02</span>
+        </div>
+        <div className="-mt-4 lg:mt-[-1vw] flex items-start -ml-8 lg:ml-[-2vw] font-style lg:w-full" style={{ fontSize: '1.2em' }}>
+            <span className="text-black font-black font-sans tracking-widest mt-4 lg:mt-[1vw] mr-2 lg:mr-[0.5vw]" style={{ fontSize: 'clamp(10px, 1.25vw, 20px)' }}>03</span>
+            <TextHighlighter 
+                triggerType="auto" 
+                highlightColor="#75BEE9" 
+                className="text-white px-4 lg:px-[1vw] pt-[0.2vw] pb-[1.5vw] rounded-[5px]"
+                transition={{ duration: 0.6, delay: 0.6 }}
+            >
+                Style
+            </TextHighlighter>
+        </div>
+      </div>
 
       {/* PHOTO 1 - BIG TOP LEFT */}
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
-        className="absolute top-[4%] left-[4%] w-[58%] h-[48%] rounded-[2vw] overflow-hidden h2h-shadow group"
+        className="relative lg:absolute lg:top-[4%] lg:left-[4%] w-[90%] mx-auto lg:mx-0 lg:w-[55%] xl:w-[58%] aspect-video lg:aspect-auto lg:h-[42%] xl:h-[48%] rounded-3xl lg:rounded-[2vw] overflow-hidden h2h-shadow group z-10"
       >
         <video src={cam2} autoPlay playsInline loop muted className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" draggable={false} />
       </motion.div>
@@ -102,19 +117,64 @@ export default function HomePage() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-        className="absolute top-[54%] left-[12%] w-[52%] flex items-center gap-0"
+        className="relative lg:absolute lg:top-[48%] xl:top-[54%] lg:left-[8%] xl:left-[12%] w-full lg:w-[58%] xl:w-[52%] flex justify-center lg:justify-start items-center gap-0 z-10"
       >
-        <span className="font-serif-h2h font-bold tracking-tight uppercase" style={{ fontSize: 'clamp(32px, 5.5vw, 80px)', lineHeight: 1 }}>
+        <span className="font-serif-h2h font-bold tracking-tight uppercase" style={{ fontSize: 'clamp(20px, 5.5vw, 80px)', lineHeight: 1 }}>
           HEART
         </span>
         <img 
             src={h2hLogo} 
             alt="H2H" 
-            style={{ width: 'clamp(36px, 6vw, 90px)', height: 'clamp(36px, 6vw, 90px)', flexShrink: 0, marginTop: '-0.3vw' }} 
+            style={{ width: 'clamp(24px, 6vw, 90px)', height: 'clamp(24px, 6vw, 90px)', flexShrink: 0, marginTop: '-0.3vw', marginLeft: '0.5vw', marginRight: '0.5vw' }} 
         />
-        <span className="font-serif-h2h font-bold tracking-tight uppercase" style={{ fontSize: 'clamp(32px, 5.5vw, 80px)', lineHeight: 1 }}>
+        <span className="font-serif-h2h font-bold tracking-tight uppercase" style={{ fontSize: 'clamp(20px, 5.5vw, 80px)', lineHeight: 1 }}>
           HEARTS
         </span>
+      </motion.div>
+
+      {/* PHOTO 3 - TALL RIGHT IMAGE */}
+      <motion.div 
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
+        className="relative lg:absolute lg:bottom-[2%] w-[80%] mx-auto lg:mx-0 lg:w-[38%] xl:w-[33%] lg:right-[1.5%] aspect-[3/4] lg:aspect-auto lg:h-[55%] xl:h-[60%] justify-end rounded-3xl lg:rounded-[2vw] overflow-hidden h2h-shadow group z-10"
+      >
+        <video src={cam1} autoPlay playsInline loop muted className="w-full h-full object-cover object-[center_20%] group-hover:scale-105 transition-transform duration-700 ease-out" draggable={false} />
+      </motion.div>
+
+      {/* MEMBER NAMES */}
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="relative lg:absolute lg:top-[68%] xl:top-[72%] lg:left-[36%] xl:left-[40%] flex flex-col items-center lg:items-start font-serif-h2h font-bold tracking-wide z-10"
+        style={{ fontSize: 'clamp(12px, 1.6vw, 24px)', lineHeight: '1.2' }}
+      >
+        <div className="flex items-center gap-2 lg:gap-[0.2vw] ml-8 lg:ml-[2vw] xl:ml-[4vw] mt-2 lg:mt-[1.5vh]">
+          {MEMBER.slice(0, 4).map((name, i) => {
+            const isEven = i % 2 === 0;
+            return (
+              <motion.div key={name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.7 + i * 0.05 }} className="whitespace-nowrap">
+                {isEven ? (
+                  <TextHighlighter triggerType="auto" highlightColor="#75BEE9" className="text-white px-2 lg:px-[0.4vw] py-[0.1vh]" rounded="rounded-none" transition={{ duration: 0.5, delay: 0.7 + i * 0.05 }}>{name}</TextHighlighter>
+                ) : ( <span className="text-[#75BEE9] px-2 lg:px-[0.4vw]">{name}</span> )}
+              </motion.div>
+            );
+          })}
+        </div>
+        <div className="flex items-center gap-2 lg:gap-[0.2vw] ml-0 lg:ml-[0.3vw]">
+          {MEMBER.slice(4, 8).map((name, i) => {
+            const globalIndex = i + 4;
+            const isEven = globalIndex % 2 === 0;
+            return (
+              <motion.div key={name} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.7 + globalIndex * 0.05 }} className="whitespace-nowrap">
+                {isEven ? (
+                  <TextHighlighter triggerType="auto" highlightColor="#75BEE9" className="text-white px-2 lg:px-[0.4vw] py-[0.1vh]" rounded="rounded-none" transition={{ duration: 0.5, delay: 0.7 + globalIndex * 0.05 }}>{name}</TextHighlighter>
+                ) : ( <span className="text-[#75BEE9] px-2 lg:px-[0.4vw]">{name}</span> )}
+              </motion.div>
+            );
+          })}
+        </div>
       </motion.div>
 
       {/* PHOTO 2 - BOTTOM LEFT */}
@@ -122,7 +182,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
-        className="absolute top-[66%] left-[4%] w-[35%] h-[32%] rounded-[2vw] overflow-hidden h2h-shadow group"
+        className="relative lg:absolute lg:top-[64%] xl:top-[66%] lg:left-[4%] w-[70%] mx-auto lg:mx-0 lg:w-[31%] xl:w-[35%] aspect-[4/3] lg:aspect-auto lg:h-[28%] xl:h-[32%] rounded-3xl lg:rounded-[2vw] overflow-hidden h2h-shadow group z-10"
       >
         <img 
             src={img1} 
@@ -130,135 +190,6 @@ export default function HomePage() {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" 
             draggable={false} 
         />
-      </motion.div>
-
-      {/* MEMBER NAMES 2 STAGGERED HORIZONTAL ROWS */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
-        className="absolute top-[72%] left-[40%] flex flex-col font-serif-h2h font-bold tracking-wide"
-        style={{ fontSize: 'clamp(20px, 2vw, 24px)', lineHeight: '1.2' }}
-      >
-        {/* HÀNG 1 */}
-        <div className="flex items-center gap-[0.2vw] ml-[4vw] mt-[1.5vh]">
-          {MEMBER.slice(0, 4).map((name, i) => {
-            const globalIndex = i;
-            const isEven = globalIndex % 2 === 0;
-            return (
-              <motion.div
-                key={name}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.7 + globalIndex * 0.05 }}
-                className="whitespace-nowrap"
-              >
-                {isEven ? (
-                  <TextHighlighter 
-                    triggerType="auto" 
-                    highlightColor="#75BEE9" 
-                    className="text-white px-[0.4vw] py-[0.1vh]"
-                    rounded="rounded-none"
-                    transition={{ duration: 0.5, delay: 0.7 + globalIndex * 0.05 }}
-                  >
-                    {name}
-                  </TextHighlighter>
-                ) : (
-                  <span className="text-[#75BEE9] px-[0.4vw]">{name}</span>
-                )}
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* HÀNG 2 - LỆCH SANG PHẢI */}
-        <div className="flex items-center gap-[0.2vw] ml-[0.3vw]">
-          {MEMBER.slice(4, 8).map((name, i) => {
-            const globalIndex = i + 4;
-            const isEven = globalIndex % 2 === 0;
-            return (
-              <motion.div
-                key={name}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.7 + globalIndex * 0.05 }}
-                className="whitespace-nowrap"
-              >
-                {isEven ? (
-                  <TextHighlighter 
-                    triggerType="auto" 
-                    highlightColor="#75BEE9" 
-                    className="text-white px-[0.4vw] py-[0.1vh]"
-                    rounded="rounded-none"
-                    transition={{ duration: 0.5, delay: 0.7 + globalIndex * 0.05 }}
-                  >
-                    {name}
-                  </TextHighlighter>
-                ) : (
-                  <span className="text-[#75BEE9] px-[0.4vw]">{name}</span>
-                )}
-              </motion.div>
-            );
-          })}
-        </div>
-      </motion.div>
-
-      {/* =========================================================================
-          RIGHT SIDE 
-      ========================================================================= */}
-
-      {/* BIG HIGHLIGHT TEXT */}
-      {/*Track list*/}
-      <div className="absolute top-[-1.5%] right-[15%] w-[25%] flex flex-col tracking-tighter scale-[0.7]" style={{ fontSize: 'clamp(50px, 8.5vw, 130px)', lineHeight: '0.9' }}>
-        
-        {/* 01 RUDE! */}
-        <div className="flex items-start font-rude uppercase">
-            <span className="text-black font-black font-sans tracking-widest mt-[0.5vw] mr-[0.5vw]" style={{ fontSize: 'clamp(12px, 1.5vw, 24px)' }}>01</span>
-            <TextHighlighter 
-                triggerType="auto" 
-                highlightColor="#75BEE9" 
-                className="text-white px-[1vw] pt-[0.2vw] pb-[0.8vw] rounded-[5px]"
-                transition={{ duration: 0.6, delay: 0.2 }}
-            >
-                RUDE!
-            </TextHighlighter>
-        </div>
-
-        {/* FOCUS 02 */}
-        <div className="mt-[-0.2vw] flex items-start ml-[6vw] font-focus uppercase">
-            <TextHighlighter 
-                triggerType="auto" 
-                highlightColor="#75BEE9" 
-                className="text-white px-[1vw] pt-[0.2vw] pb-[0.8vw] rounded-[5px]"
-                transition={{ duration: 0.6, delay: 0.4 }}
-            >
-                FOCUS
-            </TextHighlighter>
-            <span className="text-black font-black font-sans tracking-widest mt-[0.5vw] ml-[0.5vw]" style={{ fontSize: 'clamp(12px, 1.5vw, 24px)' }}>02</span>
-        </div>
-
-        {/* 03 STYLE */}
-        <div className="mt-[-1vw] flex items-start ml-[-2vw] font-style" style={{ fontSize: '1.2em' }}>
-            <span className="text-black font-black font-sans tracking-widest mt-[1vw] mr-[0.5vw]" style={{ fontSize: 'clamp(10px, 1.25vw, 20px)' }}>03</span>
-            <TextHighlighter 
-                triggerType="auto" 
-                highlightColor="#75BEE9" 
-                className="text-white px-[1vw] pt-[0.2vw] pb-[1.5vw] rounded-[5px]"
-                transition={{ duration: 0.6, delay: 0.6 }}
-            >
-                Style
-            </TextHighlighter>
-        </div>
-      </div>
-
-      {/* PHOTO 3 - TALL RIGHT IMAGE */}
-      <motion.div 
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-        className="absolute bottom-[2%] right-[4%] w-[33%] h-[60%] justify-end rounded-[2vw] overflow-hidden h2h-shadow group"
-      >
-        <video src={cam1} autoPlay playsInline loop muted className="w-full h-full object-cover object-[center_20%] group-hover:scale-105 transition-transform duration-700 ease-out" draggable={false} />
       </motion.div>
 
     </div>

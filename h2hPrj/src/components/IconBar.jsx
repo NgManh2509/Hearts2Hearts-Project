@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 
 import homePageIcon from '../assets/iconBar/homePage.png';
@@ -77,6 +77,30 @@ const IconBar = ({
   onAlbumsClick,
 }) => {
   const mouseX = useMotionValue(Infinity);
+  const containerScale = useMotionValue(1);
+
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth;
+      // Fluid responsiveness for different screen sizes
+      if (width >= 1536) {
+        containerScale.set(1);
+      } else if (width >= 1024) {
+        // Desktop responsiveness: smooth scale between 1024px and 1536px
+        containerScale.set(0.75 + ((width - 1024) / (1536 - 1024)) * 0.25);
+      } else if (width >= 768) {
+        // Tablet: smooth scale between 768px and 1024px
+        containerScale.set(0.6 + ((width - 768) / (1024 - 768)) * 0.15);
+      } else {
+        // Mobile
+        containerScale.set(0.4 + ((Math.max(width, 320) - 320) / (768 - 320)) * 0.2);
+      }
+    };
+
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, [containerScale]);
 
   const getClickHandler = (name) => {
     switch (name) {
@@ -92,14 +116,16 @@ const IconBar = ({
   };
 
   return (
-    <div
+    <motion.div
       onMouseMove={(e) => mouseX.set(e.clientX)}
       onMouseLeave={() => mouseX.set(Infinity)}
+      className="origin-bottom"
       style={{
         position:  'fixed',
         bottom:    24,
         left:      '50%',
-        transform: 'translateX(-50%)',
+        x:         '-50%',
+        scale:     containerScale,
         zIndex:    50,
         width:     'max-content',
         isolation: 'isolate',
@@ -140,7 +166,7 @@ const IconBar = ({
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
