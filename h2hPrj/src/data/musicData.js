@@ -45,6 +45,12 @@ const musicData = [
         title: "Pretty Please",
         musicSrc: "./music/PrettyPlease.mp3"
     },
+    {
+        id: 10,
+        title: "Apple Pie",
+        musicSrc: "./music/applePie.mp3"
+    },
+
 ]
 
 export default musicData;

@@ -12,20 +12,6 @@ export default function HomePage() {
   return (
     // Đổi h-full thành min-h-screen và thêm flex-col cho mobile. Trên Desktop (lg) trả lại h-screen và overflow-hidden.
     <div className="relative w-full min-h-screen lg:h-screen overflow-x-hidden lg:overflow-hidden bg-[#FAFAFA] select-none text-[#75BEE9] backdrop-blur-3xl flex flex-col lg:block pt-12 lg:pt-0 pb-20 lg:pb-0 gap-12 lg:gap-0">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@800;900&family=Permanent+Marker&family=Syne:wght@800&family=Dancing+Script:wght@700&display=swap');
-        .font-serif-h2h { font-family: "Playfair Display", "Times New Roman", Times, serif; }
-        .font-sans-h2h { font-family: "Montserrat", "Arial Black", sans-serif; font-weight: 900; }
-        .font-rude { font-family: "Permanent Marker", cursive; }
-        .font-focus { font-family: "Syne", sans-serif; font-weight: 800; letter-spacing: -0.02em; }
-        .font-style { font-family: "Dancing Script", cursive; font-weight: 700; text-transform: capitalize; }
-        .h2h-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        .h2h-stroke { 
-            -webkit-text-stroke: 2px #75BEE9; 
-            color: transparent; 
-        }
-      `}</style>
-
       {/* WAVES BACKGROUND - Chuyển sang fixed để hỗ trợ cuộn trên mobile */}
       <div className="fixed inset-0 w-full h-full opacity-60 pointer-events-none z-0">
         <Waves

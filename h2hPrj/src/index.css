@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Montserrat:wght@800;900&family=Permanent+Marker&family=Syne:wght@800&family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Bomb+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Pixelify+Sans:wght@400..700&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -127,4 +129,19 @@
   html {
     @apply font-sans;
     }
+}
+
+@layer utilities {
+  .font-serif-h2h { font-family: "Playfair Display", "Times New Roman", Times, serif; }
+  .font-sans-h2h { font-family: "Montserrat", "Arial Black", sans-serif; font-weight: 900; }
+  .font-rude { font-family: "Permanent Marker", cursive; }
+  .font-focus { font-family: "Syne", sans-serif; font-weight: 800; letter-spacing: -0.02em; }
+  .font-style { font-family: "Dancing Script", cursive; font-weight: 700; text-transform: capitalize; }
+  .font-cherry { font-family: "Cherry Bomb One", cursive; }
+  .font-pixel { font-family: "Pixelify Sans", sans-serif; }
+  .h2h-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .h2h-stroke { 
+      -webkit-text-stroke: 2px #75BEE9; 
+      color: transparent; 
+  }
 }

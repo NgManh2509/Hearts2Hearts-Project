@@ -16,7 +16,7 @@ const MemberDesktop = ({ name, bornPlace, birthDay, pos, bio, images }) => {
   };
 
   return (
-    <div className='flex w-full h-[600px] bg-white rounded-[5px] overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex-col md:flex-row pointer-events-auto'>
+    <div className='flex w-full h-auto md:aspect-[5/3] max-h-[600px] bg-white rounded-[5px] overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.05)] flex-col md:flex-row pointer-events-auto'>
       <section className='md:flex-[1.3] bg-[#000] relative flex items-center justify-center group overflow-hidden'>
         <motion.div 
           className="flex w-full h-full absolute inset-0"

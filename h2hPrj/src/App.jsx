@@ -6,6 +6,8 @@ import MemberPage from './components/MemberPage'
 import MusicApp from './components/MusicApp'
 import MiniPlayer from './components/MiniPlayer'
 import musicData from './data/musicData'
+import GalleryPage from './components/galleryPage'
+import PageTransition from './components/PageTransition'
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -14,6 +16,21 @@ function App() {
   const [playingSong, setPlayingSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const musicAppRef = useRef(null)
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [pendingTab, setPendingTab] = useState(null);
+
+  const handleTabChange = (newTab) => {
+    if (newTab === activeTab || isTransitioning) return;
+    
+    setPendingTab(newTab);
+    setIsTransitioning(true);
+    
+    // Fake load delay
+    setTimeout(() => {
+      setActiveTab(newTab);
+      setIsTransitioning(false);
+    }, 1500);
+  };
 
   const handlePlayingSong = (song, playing) => {
     console.log("Đang chơi:", song?.title, "| Playing:", playing)
@@ -48,31 +65,17 @@ function App() {
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-white">
-      <AnimatePresence mode="wait">
-        {activeTab === 'home' && (
-          <motion.div
-            key="home"
-            initial={{ opacity: 0, x: '-60%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '-60%' }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="absolute inset-0"
-          >
-            <HomePage />
-          </motion.div>
-        )}
-        
-        {activeTab === 'member' && (
-          <motion.div
-            key="member"
-            initial={{ opacity: 0, x: '50%' }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: '40%' }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="absolute inset-0"
-          >
-            <MemberPage />
-          </motion.div>
+      {/* Pages render without slide animation */}
+      <div className="absolute inset-0">
+        {activeTab === 'home' && <HomePage />}
+        {activeTab === 'member' && <MemberPage />}
+        {activeTab === 'gallery' && <GalleryPage />}
+      </div>
+
+      {/* Overlay Transition */}
+      <AnimatePresence>
+        {isTransitioning && (
+          <PageTransition text={pendingTab?.toUpperCase()} key="transition" />
         )}
       </AnimatePresence>
 
@@ -96,8 +99,9 @@ function App() {
       />
 
       <IconBar 
-        onHomeClick={() => setActiveTab('home')}
-        onMemberClick={() => setActiveTab('member')}
+        onHomeClick={() => handleTabChange('home')}
+        onMemberClick={() => handleTabChange('member')}
+        onGalleryClick={() => handleTabChange('gallery')}
         onMusicClick={() => setMusicOpen(prev => !prev)}
       />
     </div>

@@ -1,22 +1,21 @@
 import React, { useRef, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
+import { Glass } from '../support/liquid-glass';
 
 import homePageIcon from '../assets/iconBar/homePage.png';
 import memberIcon   from '../assets/iconBar/member.png';
 import galleryIcon  from '../assets/iconBar/gallery.png';
 import musicAppIcon from '../assets/iconBar/musicApp.png';
-import scheduleIcon from '../assets/iconBar/schedule.png';
 import fancamIcon   from '../assets/iconBar/fancam.png';
-import albumIcon    from '../assets/iconBar/albums.png';
+import albumIcon    from '../assets/iconBar/albums.png';  
 
 const iconData = [
   { name: "Home",     src: homePageIcon },
   { name: "Member",   src: memberIcon   },
   { name: "Gallery",  src: galleryIcon  },
   { name: "Music",    src: musicAppIcon },
-  { name: "Calender", src: scheduleIcon },
-  { name: "Stages",   src: fancamIcon   },
   { name: "Albums",   src: albumIcon    },
+  { name: "Stages",   src: fancamIcon   },
 ];
 
 /* ─── AppIcon — macOS Dock magnify ─── */
@@ -72,7 +71,6 @@ const IconBar = ({
   onMemberClick,
   onGalleryClick,
   onMusicClick,
-  onCalenderClick,
   onStagesClick,
   onAlbumsClick,
 }) => {
@@ -108,7 +106,6 @@ const IconBar = ({
       case "Member":   return onMemberClick;
       case "Gallery":  return onGalleryClick;
       case "Music":    return onMusicClick;
-      case "Calender": return onCalenderClick;
       case "Stages":   return onStagesClick;
       case "Albums":   return onAlbumsClick;
       default:         return () => {};
@@ -132,30 +129,12 @@ const IconBar = ({
       }}
     >
       {/* ── Glassmorphism dock ── */}
-      <div
-        style={{
-          display:          'flex',
-          flexDirection:    'row',
-          alignItems:       'flex-end',
-          gap:              '20px',
-          height:           '85px',
-          padding:          '0 20px',
-          /* Glass core */
-          background:       'rgba(255, 255, 255, 0.12)',
-          backdropFilter:   'blur(20px) saturate(180%)',
-          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-          /* Border */
-          border:           '1px solid rgba(255, 255, 255, 0.3)',
-          borderBottom:     '1px solid rgba(255, 255, 255, 0.15)',
-          borderRadius:     '24px',
-          /* Shadow */
-          boxShadow: [
-            '0 8px 32px rgba(0, 0, 0, 0.35)',
-            '0 2px 8px  rgba(0, 0, 0, 0.25)',
-            'inset 0 1px 0 rgba(255, 255, 255, 0.4)',
-            'inset 0 -1px 0 rgba(255, 255, 255, 0.1)',
-          ].join(', '),
-        }}
+      <Glass
+        variant="bold"
+        borderRadius={24}
+        height={85}
+        className="!overflow-visible"
+        innerClassName="flex flex-row items-end gap-[20px] px-[20px]"
       >
         {iconData.map((item, index) => (
           <AppIcon
@@ -165,7 +144,7 @@ const IconBar = ({
             mouseX={mouseX}
           />
         ))}
-      </div>
+      </Glass>
     </motion.div>
   );
 };

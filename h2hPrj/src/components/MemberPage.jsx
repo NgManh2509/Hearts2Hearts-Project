@@ -46,6 +46,19 @@ function CarouselItem({ item, index, itemWidth, trackItemOffset, x, transition }
   );
 }
 
+function useWindowDimensions() {
+  const [dim, setDim] = useState({
+    w: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    h: typeof window !== 'undefined' ? window.innerHeight : 800
+  });
+  useEffect(() => {
+    const handleResize = () => setDim({ w: window.innerWidth, h: window.innerHeight });
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return dim;
+}
+
 function Carousel({
   items,
   baseWidth = 900,
@@ -54,7 +67,16 @@ function Carousel({
   pauseOnHover = true,
   loop = true,
 }) {
-  const itemWidth = baseWidth;
+  const { w: windowWidth, h: windowHeight } = useWindowDimensions();
+  
+  // Scale down based on both width (take at most 85% width) 
+  // AND height (take at most 60% height to leave room for IconBar/dots)
+  // Aspect ratio is 5:3, meaning width = height * (5/3)
+  const maxWidthByScreen = windowWidth * 0.85;
+  const maxHeightByScreen = windowHeight * 0.65;
+  const targetWidthByHeight = maxHeightByScreen * (5 / 3);
+
+  const itemWidth = Math.min(baseWidth, maxWidthByScreen, targetWidthByHeight);
   const trackItemOffset = itemWidth + GAP;
   
   const itemsForRender = useMemo(() => {
@@ -99,8 +121,13 @@ function Carousel({
   useEffect(() => {
     const startingPosition = loop ? 1 : 0;
     setPosition(startingPosition);
-    x.set(-startingPosition * trackItemOffset);
-  }, [items.length, loop, trackItemOffset, x]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [items.length, loop]);
+
+  // Adjust x position dynamically to prevent layout breaking when resizing screen
+  useEffect(() => {
+    x.set(-position * trackItemOffset);
+  }, [position, trackItemOffset, x]);
 
   useEffect(() => {
     if (!loop && position > itemsForRender.length - 1) {
@@ -213,7 +240,7 @@ function Carousel({
           />
         ))}
       </motion.div>
-      <div className={`flex w-full justify-center mt-12 pb-4`}>
+      <div className={`flex w-full justify-center mt-6 md:mt-8 lg:mt-10 pb-4`}>
         <div className="flex justify-center gap-4 z-20">
           {items.map((_, index) => (
             <motion.div
@@ -238,7 +265,7 @@ function Carousel({
 
 export default function MemberPage() {
     return (
-        <div className="w-full min-h-[100dvh] bg-[#fdfdfd] relative flex flex-col items-center justify-center pt-10 pb-10 overflow-hidden">
+        <div className="w-full min-h-[100dvh] bg-[#fdfdfd] relative flex flex-col items-center justify-center pt-10 pb-[120px] overflow-hidden">
             <div className="absolute inset-0 z-0 pointer-events-auto">
                 <DotField 
                     gradientFrom="#00C6FF"
