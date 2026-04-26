@@ -8,6 +8,7 @@ import MiniPlayer from './components/MiniPlayer'
 import musicData from './data/musicData'
 import GalleryPage from './components/galleryPage'
 import PageTransition from './components/PageTransition'
+import AlbumPage from './components/AlbumPage'
 
 function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -70,6 +71,7 @@ function App() {
         {activeTab === 'home' && <HomePage />}
         {activeTab === 'member' && <MemberPage />}
         {activeTab === 'gallery' && <GalleryPage />}
+        {activeTab === 'album' && <AlbumPage />}
       </div>
 
       {/* Overlay Transition */}
@@ -103,6 +105,7 @@ function App() {
         onMemberClick={() => handleTabChange('member')}
         onGalleryClick={() => handleTabChange('gallery')}
         onMusicClick={() => setMusicOpen(prev => !prev)}
+        onAlbumsClick={() => handleTabChange('album')}
       />
     </div>
   )

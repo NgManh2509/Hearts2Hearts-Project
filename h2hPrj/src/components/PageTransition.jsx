@@ -22,7 +22,7 @@ const TextAnimate = ({text}) => {
                             delay: 0.025 * idx,
                             repeat: Infinity,
                             repeatType: "loop",
-                            repeatDelay: 0.2
+                            repeatDelay: 0.45
                         }}
                         className='inline-block'
                         >
@@ -45,7 +45,7 @@ const TextAnimate = ({text}) => {
                             delay: 0.025 * idx,
                             repeat: Infinity,
                             repeatType: "loop",
-                            repeatDelay: 0.2
+                            repeatDelay: 0.45
                         }}
                         className='inline-block'
                         >
