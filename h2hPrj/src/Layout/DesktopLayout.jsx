@@ -1,0 +1,113 @@
+import { useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import IconBar from '../components/IconBar'
+import HomePage from '../components/HomePage'
+import MemberPage from '../components/MemberPage'
+import MusicApp from '../components/MusicApp'
+import MiniPlayer from '../components/MiniPlayer'
+import musicData from '../data/musicData'
+import GalleryPage from '../components/galleryPage'
+import PageTransition from '../components/PageTransition'
+import AlbumPage from '../components/AlbumPage'
+
+function DesktopLayout() {
+  const [activeTab, setActiveTab] = useState('home');
+  const [musicOpen, setMusicOpen] = useState(false);
+  const [isMiniVisible, setMiniVisible] = useState(false);
+  const [playingSong, setPlayingSong] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const musicAppRef = useRef(null)
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [pendingTab, setPendingTab] = useState(null);
+
+  const handleTabChange = (newTab) => {
+    if (newTab === activeTab || isTransitioning) return;
+    
+    setPendingTab(newTab);
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setActiveTab(newTab);
+      setIsTransitioning(false);
+    }, 1500);
+  };
+
+  const handlePlayingSong = (song, playing) => {
+    console.log("Đang chơi:", song?.title, "| Playing:", playing)
+    setPlayingSong(song)
+    setIsPlaying(playing)
+    if(song) setMiniVisible(true)
+  }
+
+  const handlePlayPause = () => {
+    if (musicAppRef.current) {
+      musicAppRef.current.togglePlay(playingSong);
+    }
+  };
+
+  const handlePrev = () => {
+    if(!playingSong) return;
+    const index = musicData.findIndex(song => song.id === playingSong.id)
+    const prevIdx = index <= 0 ? musicData.length - 1 : index - 1;
+    const prevSong = musicData[prevIdx];
+    if(musicAppRef.current){
+      musicAppRef.current.playExternal(prevSong)
+    }
+  }
+
+  const handNext = () =>{
+    if(!playingSong) return
+    const index = musicData.findIndex(song => song.id === playingSong.id)
+    const nextIndex = index + 1 >= musicData.length ? 0 : index + 1
+    const nextSong = musicData[nextIndex]
+    if (musicAppRef.current) musicAppRef.current.playExternal(nextSong);
+  }
+
+  return (
+    <div className="relative w-full h-screen overflow-hidden bg-white">
+      {/* Pages render without slide animation */}
+      <div className="absolute inset-0">
+        {activeTab === 'home' && <HomePage />}
+        {activeTab === 'member' && <MemberPage />}
+        {activeTab === 'gallery' && <GalleryPage />}
+        {activeTab === 'album' && <AlbumPage />}
+      </div>
+
+      {/* Overlay Transition */}
+      <AnimatePresence>
+        {isTransitioning && (
+          <PageTransition text={pendingTab?.toUpperCase()} key="transition" />
+        )}
+      </AnimatePresence>
+
+      {/* Music App — luôn mount để audio không bị reset */}
+      <MusicApp
+        ref={musicAppRef}
+        isOpen={musicOpen}
+        onClose={() => setMusicOpen(false)}
+        canPlay={musicOpen}
+        onPlayStateChange={handlePlayingSong}
+      />
+      
+
+      <MiniPlayer
+        song={playingSong}
+        isPlaying={isPlaying}
+        isVisible={isMiniVisible}
+        onPlayPause={handlePlayPause}
+        onPrev={handlePrev}
+        onNext={handNext}
+        songCover={playingSong.songCover}
+      />
+
+      <IconBar 
+        onHomeClick={() => handleTabChange('home')}
+        onMemberClick={() => handleTabChange('member')}
+        onGalleryClick={() => handleTabChange('gallery')}
+        onMusicClick={() => setMusicOpen(prev => !prev)}
+        onAlbumsClick={() => handleTabChange('album')}
+      />
+    </div>
+  )
+}
+
+export default DesktopLayout

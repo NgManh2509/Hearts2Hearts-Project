@@ -328,7 +328,7 @@ const ExploreScroll = forwardRef(function ExploreScroll(
                           >
                             <div className="relative z-10 flex-shrink-0">
                               <img
-                                src='https://cdn-images.dzcdn.net/images/artist/6d659e8b2bed3307ee9535c322f55379/1000x1000-000000-80-0-0.jpg'
+                                src={song.songCover}
                                 alt={song.title}
                                 className={`rounded-full object-cover transition-all duration-300 ease-out ${isActive ? 'grayscale-0 shadow-[0_15px_25px_rgba(0,0,0,0.1)]' : 'grayscale shadow-[0_10px_20px_rgba(0,0,0,0.08)]'}`}
                                 style={{ width: isActive ? imgActive : imgInactive, height: isActive ? imgActive : imgInactive }}
@@ -464,7 +464,7 @@ const ExploreScroll = forwardRef(function ExploreScroll(
                           >
                             <div className="relative z-10 flex-shrink-0">
                               <img
-                                src='https://cdn-images.dzcdn.net/images/artist/6d659e8b2bed3307ee9535c322f55379/1000x1000-000000-80-0-0.jpg'
+                                src={song.songCover}
                                 alt={song.title}
                                 className={`rounded-full object-cover transition-all duration-300 ease-out ${isActive ? 'grayscale-0 shadow-[0_15px_25px_rgba(0,0,0,0.1)]' : 'grayscale shadow-[0_10px_20px_rgba(0,0,0,0.08)]'}`}
                                 style={{ width: isActive ? imgActive : imgInactive, height: isActive ? imgActive : imgInactive }}

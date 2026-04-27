@@ -10,7 +10,7 @@ const AlbumCard = ({album}) => {
             href={album.albumLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full max-w-[320px] block relative group aspect-square overflow-hidden bg-gray-100 cursor-pointer transition-all duration-300"
+            className="w-full max-w-[320px] block relative group aspect-square overflow-hidden bg-gray-100 cursor-pointer transition-all duration-300 [container-type:inline-size]"
         >
             <img
                 src={album.albumCover}
@@ -19,10 +19,10 @@ const AlbumCard = ({album}) => {
             />
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="absolute md:inset-0 md:flex md:flex-col md:items-center md:justify-center md:p-4 max-md:bottom-0 max-md:right-0 max-md:p-0 max-md:m-0 max-md:-translate-x-2 max-md:translate-y-2 flex flex-col items-end md:items-center">
-                    <span className="text-gray-300 text-xs sm:text-sm font-semibold uppercase tracking-widest mb-1 max-w-full truncate px-1">
+                    <span className="text-gray-300 text-[clamp(8px,4cqw,14px)] font-semibold uppercase tracking-widest mb-1 max-w-full whitespace-nowrap px-1">
                         {album.albumType || 'nodata'}
                     </span>
-                    <span className="text-white text-sm sm:text-base lg:text-lg font-bold font-serif text-right md:text-center line-clamp-3 break-words px-1">
+                    <span className="text-white text-[clamp(10px,8cqw,22px)] font-bold font-serif text-right md:text-center max-w-full px-1">
                         {album.albumName || 'nodata'}
                     </span>
                 </div>
@@ -37,7 +37,7 @@ const TextAnimate = ({text, idx = 0, className}) => {
        <motion.div 
         initial="initial"
         whileHover="hovered"
-        className={`relative block overflow-hidden cursor-pointer break-words ${className || ''}`}
+        className={`relative block overflow-hidden cursor-pointer whitespace-nowrap ${className || ''}`}
        >
         <motion.div 
             variants={{
@@ -64,6 +64,55 @@ const TextAnimate = ({text, idx = 0, className}) => {
        >
             {text}
        </motion.div>
+       </motion.div>
+    )
+}
+
+const TextAnimate1 = ({text, idx = 0, className}) => {
+    return (
+       <motion.div 
+        initial="initial"
+        whileHover="hovered"
+        className={`relative block overflow-hidden cursor-pointer whitespace-nowrap ${className || ''}`}
+       >
+        <div>
+            {text.split("").map((char, index) =>(
+                <motion.span 
+                    key={index}
+                    variants={{
+                        initial:{y : 0},
+                        hovered: {y : '-100%'}
+                    }}
+                    transition={{ 
+                        duration: 0.6,
+                        ease: [0.76, 0, 0.24, 1],
+                        delay: 0.025 * index,
+                    }}
+                    className='inline-block'
+                >
+                    {char === " " ? "\u00A0" : char}
+                </motion.span>
+            ))}
+        </div>
+        <div className="absolute inset-0">
+            {text.split("").map((char, index) =>(
+                <motion.span 
+                    key={index}
+                    variants={{
+                        initial:{y : '100%'},
+                        hovered: {y : '0%'}
+                    }}
+                    transition={{ 
+                        duration: 0.6,
+                        ease: [0.76, 0, 0.24, 1],
+                        delay: 0.025 * index,
+                    }}
+                    className='inline-block'
+                >
+                    {char === " " ? "\u00A0" : char}
+                </motion.span>
+            ))}
+        </div>
        </motion.div>
     )
 }
@@ -118,26 +167,26 @@ const AlbumPage = () => {
             {albumData.map((album, idx) => (
                 <div 
                     key={`info-${album.id}`} 
-                    className={`w-full flex flex-col ${idx % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}
+                    className={`w-full flex flex-col [container-type:inline-size] ${idx % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}
                 >
                     <TextAnimate
                         text={album.albumType}
-                        className="mb-0 text-gray-500 text-sm font-semibold tracking-[0.2em] uppercase"
+                        className="mb-0 text-gray-500 text-[clamp(10px,3cqw,14px)] font-semibold tracking-[0.2em] uppercase max-w-full"
                     />
                     
-                    <TextAnimate 
+                    <TextAnimate1 
                         text={album.albumName} 
-                        className="text-4xl md:text-5xl font-black uppercase font-sans tracking-tighter text-black" 
+                        className="text-[clamp(24px,8cqw,48px)] font-black uppercase font-sans tracking-tighter text-black max-w-full" 
                     />
                     
-                    <ul className={`mt-2 space-y-2 ${idx % 2 === 0 ? 'text-left' : 'text-right'}`}>
+                    <ul className={`mt-2 space-y-2 max-w-full ${idx % 2 === 0 ? 'text-left' : 'text-right'}`}>
                         {album.listSongs.map((song, sIdx) => (
                             <li 
                                 key={sIdx} 
-                                className="text-base md:text-lg font-medium text-gray-600 font-sans opacity-80 hover:opacity-100 hover:text-black transition-all flex items-center gap-3"
+                                className="text-[clamp(14px,4cqw,18px)] font-medium text-gray-600 font-sans opacity-80 hover:opacity-100 hover:text-black transition-all flex items-center gap-3 max-w-full"
                                 style={{ flexDirection: idx % 2 === 0 ? 'row' : 'row-reverse' }}
                             >
-                                <span className="text-xs font-mono opacity-50 text-gray-500">{String(sIdx + 1).padStart(2, '0')}</span>
+                                <span className="text-[clamp(10px,2cqw,12px)] shrink-0 font-mono opacity-50 text-gray-500">{String(sIdx + 1).padStart(2, '0')}</span>
                                 <TextAnimate text={song} className="" />
                             </li>
                         ))}

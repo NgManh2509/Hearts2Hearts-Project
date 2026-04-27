@@ -6,7 +6,7 @@ import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 const MORPH_SPRING = { type: 'spring', stiffness: 380, damping: 30, mass: 0.9 };
 const CONTENT_SPRING = { type: 'spring', stiffness: 500, damping: 36 };
 
-const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext }) => {
+const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext, songCover }) => {
   const [isControls, setIsControls] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
 
@@ -119,7 +119,7 @@ const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext })
                     }}
                   >
                     <img
-                      src='https://cdn-images.dzcdn.net/images/artist/6d659e8b2bed3307ee9535c322f55379/1000x1000-000000-80-0-0.jpg'
+                      src={songCover}
                       alt="cover"
                       style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                     />
@@ -215,7 +215,7 @@ const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext })
                     style={{
                       flex: 1, height: '100%', borderRadius: 10,
                       position: 'relative', overflow: 'hidden', cursor: 'pointer',
-                      backgroundImage: `url('https://cdn-images.dzcdn.net/images/artist/6d659e8b2bed3307ee9535c322f55379/1000x1000-000000-80-0-0.jpg')`,
+                      backgroundImage: `url(${songCover})`,
                       backgroundSize: 'cover', backgroundPosition: 'center',
                       userSelect: 'none',
                     }}

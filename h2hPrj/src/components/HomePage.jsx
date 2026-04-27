@@ -10,9 +10,7 @@ const MEMBER = ['Jiwoo', 'Carmen', 'Yuha', 'Stella', 'Juun', 'A-na', 'Ian', 'Ye-
 
 export default function HomePage() {
   return (
-    // Đổi h-full thành min-h-screen và thêm flex-col cho mobile. Trên Desktop (lg) trả lại h-screen và overflow-hidden.
     <div className="relative w-full min-h-screen lg:h-screen overflow-x-hidden lg:overflow-hidden bg-[#FAFAFA] select-none text-[#75BEE9] backdrop-blur-3xl flex flex-col lg:block pt-12 lg:pt-0 pb-20 lg:pb-0 gap-12 lg:gap-0">
-      {/* WAVES BACKGROUND - Chuyển sang fixed để hỗ trợ cuộn trên mobile */}
       <div className="fixed inset-0 w-full h-full opacity-60 pointer-events-none z-0">
         <Waves
           lineColor="#75BEE9"
@@ -29,10 +27,9 @@ export default function HomePage() {
         />
       </div>
 
-      {/* TYPOGRAPHY TRANG TRÍ CHỈ HIỆN TRÊN DESKTOP ĐỂ TRÁNH RÁC MOBILE */}
       <div className="hidden lg:block absolute top-[3%] right-[4%] text-[0.6vw] tracking-[0.2em] font-sans-h2h text-[#75BEE9]/60 text-right z-0">
         <span>COLLECTIONS</span><br />
-        <span className="opacity-50">S2U 2024</span>
+        <span className="opacity-50">S2U 2025</span>
       </div>
 
       <div className="hidden lg:flex absolute bottom-[4%] right-[2%] transform -rotate-90 origin-bottom-right text-[0.6vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/50 items-center gap-[1vw] z-0">
