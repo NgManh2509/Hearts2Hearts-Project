@@ -10,6 +10,7 @@ import GalleryPage from '../components/galleryPage'
 import PageTransition from '../components/PageTransition'
 import AlbumPage from '../components/AlbumPage'
 
+
 function DesktopLayout() {
   const [activeTab, setActiveTab] = useState('home');
   const [musicOpen, setMusicOpen] = useState(false);
@@ -96,7 +97,7 @@ function DesktopLayout() {
         onPlayPause={handlePlayPause}
         onPrev={handlePrev}
         onNext={handNext}
-        songCover={playingSong.songCover}
+        songCover={playingSong?.songCover}
       />
 
       <IconBar 

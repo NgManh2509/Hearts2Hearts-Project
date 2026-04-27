@@ -64,7 +64,7 @@ const PageTransition = ({text = "TEST"}) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 0.4 } }}
         exit={{ y: "-100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
-        className='fixed inset-0 z-50 flex items-center justify-center bg-[#75BEE9] px-8 text-white'
+        className='fixed inset-0 z-[999] flex items-center justify-center bg-[#75BEE9] px-8 text-white'
     >
         <TextAnimate text={text} />
     </motion.section>

@@ -5,7 +5,7 @@ const albumData = [
         albumType: "THE 1st SINGLE", 
         listSongs:["The Chase", "Butterflies"],
         albumCover:"https://cdn-images.dzcdn.net/images/cover/a9f7de4c629e2808261b508008356905/1000x1000-000000-80-0-0.jpg",
-        albumLink:''
+        albumLink:'https://open.spotify.com/album/2IjkSbisATTpSpVIlFVNkN?si=RLhvNW-RRWWjKM4gAL-uZg'
     },
     {
         id: "al02",
@@ -13,7 +13,7 @@ const albumData = [
         albumType: "THE 2nd SINGLE", 
         listSongs:["STYLE"],
         albumCover:"https://cdn-images.dzcdn.net/images/cover/a903e666dfaf6012d43e453330dd19b0/1000x1000-000000-80-0-0.jpg",
-        albumLink:''
+        albumLink:'https://open.spotify.com/album/2bCF7O4JPKcxtlOw7AtphB?si=yMxW-k2IRmWxIQ1BdGbyzA'
     },
     {
         id: "al03",
@@ -23,7 +23,7 @@ const albumData = [
            "Pretty Please"
         ],
         albumCover:"https://cdn-images.dzcdn.net/images/cover/5f56532b85cd8a91ada5ce3efca70746/1000x1000-000000-80-0-0.jpg",
-        albumLink:''
+        albumLink:'https://open.spotify.com/album/6OKTuIMgKFuvdkiXWi3Vpt?si=d2icwG1pSpWOV43yA128Qw'
     },
     {
         id: "al04",
@@ -31,7 +31,7 @@ const albumData = [
         albumType: "1st Mini Album", 
         listSongs:["Focus", "Apple Pie", "Pretty Please", "Flutter", "Blue Moon", "STYLE"],
         albumCover:"https://cdn-images.dzcdn.net/images/cover/06342234b90d74114f9ded94d124e02e/1000x1000-000000-80-0-0.jpg",
-        albumLink:''    
+        albumLink:'https://open.spotify.com/album/0SVlu6q116wFO1m4EZ088b?si=fc-538bHS2-we53D3TjzoA'    
     },
     {
         id: "al05",
@@ -45,7 +45,7 @@ const albumData = [
             "FOCUS"
         ],
         albumCover:"https://cdn-images.dzcdn.net/images/cover/b9d6175cf27b0ad6db49047e74ad8ae0/1000x1000-000000-80-0-0.jpg",
-        albumLink:''    
+        albumLink:'https://open.spotify.com/album/1yGMnRXU8uehPFHHZTXQZZ?si=lqXrsZIcTxO_jmq8WDYuTA'    
     },
     {
         id: "al06",
@@ -55,7 +55,7 @@ const albumData = [
            "RUDE!"
         ],
         albumCover:"https://cdn-images.dzcdn.net/images/cover/da53678166431bddcbc470712bd43fa7/1000x1000-000000-80-0-0.jpg",
-        albumLink:''    
+        albumLink:'https://open.spotify.com/album/3053E9tumiU5rqbAPWF06s?si=rWxZV6xZS1667GOcZkPpOw'    
     },
     {
         id: "al07",
@@ -65,7 +65,7 @@ const albumData = [
            "RUDE! (Japanese ver.)",
         ],
         albumCover:"https://cdn-images.dzcdn.net/images/cover/7d380842dfbcfe3b240d193d1cbe11c8/1000x1000-000000-80-0-0.jpg",
-        albumLink:''    
+        albumLink:'https://open.spotify.com/album/3053E9tumiU5rqbAPWF06s?si=1IXWGc2ET0OiXmxqf3aPZg'    
     },
     {
         id: "al08",
@@ -77,7 +77,7 @@ const albumData = [
             "RUDE!"
         ],
         albumCover:"https://cdn-images.dzcdn.net/images/cover/f2a7bb3844b063290c0a9037cb89f714/1000x1000-000000-80-0-0.jpg",
-        albumLink:''    
+        albumLink:'https://open.spotify.com/album/0DAkce8nO9gdIhxCSup11t?si=IV2Zn83HSn-rEbVyqcwGrg'    
     },
 ];
 
