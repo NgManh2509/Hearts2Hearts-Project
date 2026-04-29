@@ -138,13 +138,16 @@ const SlidingPagination = ({ x, singleWidthRef, total }) => {
 };
 
 // --- COMPONENT CHÍNH ---
+const AUTO_SCROLL_SPEED = 0.6;
+
 const GalleryPage = () => {
-  // Lưu singleWidth trong ref để KHÔNG gây re-render khi thay đổi
-  // Re-render khi đang kéo sẽ khiến x bị reset về vị trí cũ (snap-back bug)
   const singleWidthRef = useRef(0);
   const carouselRef = useRef(null);
   const x = useMotionValue(0);
   const loadedCountRef = useRef(0);
+  const isDragging = useRef(false);
+  const rafRef = useRef(null);
+  const resumeTimerRef = useRef(null);
 
   const tripleImages = [...images, ...images, ...images];
   const total = images.length;
@@ -158,14 +161,11 @@ const GalleryPage = () => {
     if (newSWidth <= 0) return;
 
     if (singleWidthRef.current === 0) {
-      // Lần đầu: lưu width và đặt x về giữa của 3 set ảnh
       singleWidthRef.current = newSWidth;
       x.set(-newSWidth);
     }
-    // Không reset x sau lần đầu — đây là key fix cho snap-back bug
   };
 
-  // Đo chiều rộng khi tất cả ảnh của set đầu đã load xong
   const handleImageLoad = () => {
     loadedCountRef.current += 1;
     if (loadedCountRef.current >= total) {
@@ -173,11 +173,34 @@ const GalleryPage = () => {
     }
   };
 
-  // Fallback: nếu ảnh load từ cache thì onLoad không fire, chạy sau 300ms
   useEffect(() => {
     const timer = setTimeout(measureAndInit, 300);
     return () => clearTimeout(timer);
   }, []);
+  useEffect(() => {
+    const tick = () => {
+      if (!isDragging.current) {
+        x.set(x.get() - AUTO_SCROLL_SPEED);
+      }
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    };
+  }, []);
+
+  const handleDragStart = () => {
+    isDragging.current = true;
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+  };
+
+  const handleDragEnd = () => {
+    resumeTimerRef.current = setTimeout(() => {
+      isDragging.current = false;
+    }, 1500); // resume sau 1.5s kể từ khi thả
+  };
 
   useMotionValueEvent(x, "change", (latest) => {
     const sw = singleWidthRef.current;
@@ -208,6 +231,8 @@ const GalleryPage = () => {
           style={{ x }}
           dragElastic={0}
           dragConstraints={false}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
           className="flex gap-4 xl:gap-8 cursor-grab active:cursor-grabbing w-max"
         >
           {tripleImages.map((image, index) => (

@@ -9,6 +9,7 @@ import musicData from '../data/musicData'
 import GalleryPage from '../components/galleryPage'
 import PageTransition from '../components/PageTransition'
 import AlbumPage from '../components/AlbumPage'
+import StagePage from '../components/StagePage'
 
 
 function DesktopLayout() {
@@ -71,6 +72,7 @@ function DesktopLayout() {
         {activeTab === 'member' && <MemberPage />}
         {activeTab === 'gallery' && <GalleryPage />}
         {activeTab === 'album' && <AlbumPage />}
+        {activeTab === 'stage' && <StagePage />}
       </div>
 
       {/* Overlay Transition */}
@@ -106,6 +108,7 @@ function DesktopLayout() {
         onGalleryClick={() => handleTabChange('gallery')}
         onMusicClick={() => setMusicOpen(prev => !prev)}
         onAlbumsClick={() => handleTabChange('album')}
+        onStagesClick={() => handleTabChange('stage')}
       />
     </div>
   )
