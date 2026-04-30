@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Card from '../assets/Card.svg'
 import DotField from '../../@/components/DotField'
+import FlipCard from './Card/FlipCard'
 
 const TextAnimate = ({text}) => {
     return (
@@ -85,7 +86,7 @@ const cardVariants = {
   },
 }
 
-const Cards = ({ orgX = 0, orgY = 0, rotate = 12, delay = 800, index, hoveredIndex, setHoveredIndex }) => {
+const Cards = ({ orgX = 0, orgY = 0, rotate = 12, delay = 800, index, hoveredIndex, setHoveredIndex, onClick }) => {
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
@@ -107,8 +108,9 @@ const Cards = ({ orgX = 0, orgY = 0, rotate = 12, delay = 800, index, hoveredInd
       whileHover="hover"
       onHoverStart={() => setHoveredIndex(index)}
       onHoverEnd={() => setHoveredIndex(null)}
-      style={{ originX: orgX, originY: orgY }}
-      className="w-[13vw] h-[19vw] min-w-[120px] min-h-[175px] max-w-[260px] max-h-[380px] cursor-pointer"
+      style={{ originX: orgX, originY: orgY, aspectRatio: '2/3' }}
+      className="w-[11vw] sm:w-[10vw] lg:w-[9vw] max-w-[200px] cursor-pointer"
+      onClick={onClick}
     >
         <img 
           src={Card} 
@@ -121,6 +123,7 @@ const Cards = ({ orgX = 0, orgY = 0, rotate = 12, delay = 800, index, hoveredInd
 
 const StagePage = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [openCard, setOpenCard] = useState(false);
 
   const cardsData = [
     { orgX: 0, orgY: 0, rotate: 12, delay: 800 },
@@ -163,17 +166,39 @@ const StagePage = () => {
           </motion.p>
         </div>
 
-        <div className='flex items-center justify-center gap-[2.5vw] px-[3vw]'>
+        <div 
+        className='flex items-center justify-center gap-3 md:gap-[2vw] lg:gap-[2.5vw] px-4 sm:px-[3vw]'
+        >
           {cardsData.map((card, idx) => (
             <Cards 
               key={idx} 
               index={idx}
               hoveredIndex={hoveredIndex}
               setHoveredIndex={setHoveredIndex}
+              onClick={() => setOpenCard(true)}
               {...card} 
             />
           ))}
         </div>
+
+        {/* Modal hiển thị FlipCard */}
+        <AnimatePresence>
+          {openCard && (
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer"
+              onClick={() => setOpenCard(false)}
+            >
+              {/* Ngăn chặn sự kiện click ra ngoài làm đóng modal khi click vào chính thẻ */}
+              <div onClick={(e) => e.stopPropagation()} className="cursor-default">
+                {/* Để thẻ bự hơn một chút trên màn hình modal, bạn có thể truyền thêm class hoặc style vào FlipCard nếu muốn */}
+                <FlipCard />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
     </div>
   )
