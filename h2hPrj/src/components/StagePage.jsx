@@ -181,7 +181,6 @@ const StagePage = () => {
           ))}
         </div>
 
-        {/* Modal hiển thị FlipCard */}
         <AnimatePresence>
           {openCard && (
             <motion.div 
@@ -191,9 +190,7 @@ const StagePage = () => {
               className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm cursor-pointer"
               onClick={() => setOpenCard(false)}
             >
-              {/* Ngăn chặn sự kiện click ra ngoài làm đóng modal khi click vào chính thẻ */}
               <div onClick={(e) => e.stopPropagation()} className="cursor-default">
-                {/* Để thẻ bự hơn một chút trên màn hình modal, bạn có thể truyền thêm class hoặc style vào FlipCard nếu muốn */}
                 <FlipCard />
               </div>
             </motion.div>

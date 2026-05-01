@@ -32,7 +32,6 @@ const FlipCard = ({ videoUrl }) => {
                 transition={{ duration: 0.6, animationDirection: "normal" }}
                 onAnimationComplete={() => setIsAnimating(false)}
             >
-                {/* Mặt trước: Hiển thị lá bài */}
                 <div className="flip card-front absolute w-full h-full">
                     <img 
                         src={CardSvg} 
@@ -41,10 +40,8 @@ const FlipCard = ({ videoUrl }) => {
                     />
                 </div>
 
-                {/* Mặt sau: Hiển thị video */}
                 <div className="flip card-back absolute w-full h-full">
                     <div className="w-full h-full rounded-[10px] overflow-hidden bg-zinc-900 shadow-[0_15px_20px_rgba(0,0,0,0.15)] relative">
-                        {/* Loading Spinner */}
                         {!isVideoLoaded && (
                             <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="w-10 h-10 border-4 border-zinc-700 border-t-zinc-200 rounded-full animate-spin"></div>
@@ -58,7 +55,11 @@ const FlipCard = ({ videoUrl }) => {
                             muted
                             playsInline
                             preload="auto"
-                            onLoadedData={() => setIsVideoLoaded(true)}
+                            onLoadStart={() => console.log(`Đang load ${videoSrc}`)}
+                            onLoadedData={() => {
+                                console.log(`Loaded ${videoSrc}`);
+                                setIsVideoLoaded(true);
+                            }}
                         />
                     </div>
                 </div>
