@@ -144,7 +144,6 @@ const GalleryPage = () => {
   const singleWidthRef = useRef(0);
   const carouselRef = useRef(null);
   const x = useMotionValue(0);
-  const loadedCountRef = useRef(0);
   const isDragging = useRef(false);
   const rafRef = useRef(null);
   const resumeTimerRef = useRef(null);
@@ -152,31 +151,31 @@ const GalleryPage = () => {
   const tripleImages = [...images, ...images, ...images];
   const total = images.length;
 
-  const measureAndInit = () => {
-    if (!carouselRef.current) return;
-    const children = carouselRef.current.children;
-    if (!children[total]) return;
-
-    const newSWidth = children[total].offsetLeft - children[0].offsetLeft;
-    if (newSWidth <= 0) return;
-
-    if (singleWidthRef.current === 0) {
-      singleWidthRef.current = newSWidth;
-      x.set(-newSWidth);
-    }
-  };
-
-  const handleImageLoad = () => {
-    loadedCountRef.current += 1;
-    if (loadedCountRef.current >= total) {
-      measureAndInit();
-    }
-  };
 
   useEffect(() => {
-    const timer = setTimeout(measureAndInit, 300);
-    return () => clearTimeout(timer);
-  }, []);
+    if (!carouselRef.current) return;
+
+    const measure = () => {
+      if (!carouselRef.current) return;
+      const children = carouselRef.current.children;
+      if (!children[total]) return;
+
+      const newSWidth = children[total].offsetLeft - children[0].offsetLeft;
+
+      if (newSWidth > 0 && newSWidth !== singleWidthRef.current) {
+        if (singleWidthRef.current === 0) {
+          x.set(-newSWidth);
+        }
+        
+        singleWidthRef.current = newSWidth;
+      }
+    };
+    const observer = new ResizeObserver(() => {
+      measure();
+    });
+    observer.observe(carouselRef.current);
+    return () => observer.disconnect();
+  }, [total, x]);
   useEffect(() => {
     const tick = () => {
       if (!isDragging.current) {
@@ -243,8 +242,8 @@ const GalleryPage = () => {
               <img
                 src={image.src}
                 alt={image.alt}
+                decoding="async"
                 className="h-full w-auto object-cover pointer-events-none"
-                onLoad={index < total ? handleImageLoad : undefined}
               />
             </motion.div>
           ))}

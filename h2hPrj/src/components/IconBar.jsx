@@ -8,6 +8,7 @@ import galleryIcon  from '../assets/iconBar/gallery.png';
 import musicAppIcon from '../assets/iconBar/musicApp.png';
 import fancamIcon   from '../assets/iconBar/fancam.png';
 import albumIcon    from '../assets/iconBar/albums.png';  
+import creditIcon   from '../assets/iconBar/note.png';
 
 const iconData = [
   { name: "Home",     src: homePageIcon },
@@ -16,6 +17,7 @@ const iconData = [
   { name: "Music",    src: musicAppIcon },
   { name: "Albums",   src: albumIcon    },
   { name: "Stages",   src: fancamIcon   },
+  { name: "Credits",  src: creditIcon   },
 ];
 
 /* ─── AppIcon — macOS Dock magnify ─── */
@@ -73,6 +75,7 @@ const IconBar = ({
   onMusicClick,
   onStagesClick,
   onAlbumsClick,
+  onCreditClick
 }) => {
   const mouseX = useMotionValue(Infinity);
   const containerScale = useMotionValue(1);
@@ -108,6 +111,7 @@ const IconBar = ({
       case "Music":    return onMusicClick;
       case "Stages":   return onStagesClick;
       case "Albums":   return onAlbumsClick;
+      case "Credits":  return onCreditClick;
       default:         return () => {};
     }
   };
