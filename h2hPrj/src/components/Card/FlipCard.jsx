@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import FanCamData from '../../data/fanCamData';
 import CardSvg from '../../assets/Card.svg';
@@ -9,6 +9,34 @@ const FlipCard = ({ videoUrl }) => {
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
     
     const [videoSrc] = useState(videoUrl || FanCamData[Math.floor(Math.random() * FanCamData.length)]);
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        const el = videoRef.current;
+        if (!el) return;
+
+        if (isFlipped) {
+            if (el.getAttribute('src') !== videoSrc) {
+                el.setAttribute('src', videoSrc);
+                el.load();
+            }
+        } else {
+            if (el.getAttribute('src')) {
+                console.log(`Dừng load ${videoSrc}`);
+                el.removeAttribute('src');
+                el.load();
+                setIsVideoLoaded(false);
+            }
+        }
+
+        return () => {
+            if (el && el.getAttribute('src')) {
+                console.log(`Dừng load ${videoSrc}`);
+                el.removeAttribute('src');
+                el.load();
+            }
+        };
+    }, [isFlipped, videoSrc]);
 
     const handleFlip = () => {
         if (!isAnimating) {
@@ -47,8 +75,8 @@ const FlipCard = ({ videoUrl }) => {
                                 <div className="w-10 h-10 border-4 border-zinc-700 border-t-zinc-200 rounded-full animate-spin"></div>
                             </div>
                         )}
-                        <video 
-                            src={videoSrc} 
+                        <video
+                            ref={videoRef}
                             className={`w-full h-full object-cover transition-opacity duration-500 ${isVideoLoaded ? 'opacity-100' : 'opacity-0'}`}
                             autoPlay
                             loop
