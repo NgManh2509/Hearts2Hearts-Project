@@ -105,7 +105,7 @@ const PaginationNumber = ({ index, scrollIndex, total }) => {
   const distance = useTransform(distanceRaw, (d) => Math.abs(d));
   const opacity = useTransform(distance, [0, 1, 2, 2.5], [1, 0.4, 0.1, 0]);
   const scale = useTransform(distance, [0, 1, 2, 3], [1.2, 0.9, 0.7, 0.5]);
-  const xTranslate = useTransform(distanceRaw, (d) => d * 40);
+  const xTranslate = useTransform(distanceRaw, (d) => d * 50);
 
   return (
     <motion.span
