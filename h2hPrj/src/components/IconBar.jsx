@@ -21,7 +21,7 @@ const iconData = [
 ];
 
 /* ─── AppIcon — macOS Dock magnify ─── */
-function AppIcon({ item, onClick, mouseX }) {
+function AppIcon({ item, onClick, mouseX, textColor = '#75BEE9' }) {
   const ref = useRef(null);
 
   const springConfig = { mass: 0.1, stiffness: 200, damping: 15 };
@@ -59,7 +59,7 @@ function AppIcon({ item, onClick, mouseX }) {
           draggable="false"
           className="w-12 h-12 object-contain drop-shadow-xl"
         />
-        <span className="text-[11px] mt-1 font-serif-h2h font-bold text-[#75BEE9] drop-shadow-sm select-none">
+        <span className="text-[11px] mt-1 font-serif-h2h font-bold drop-shadow-sm select-none" style={{ color: textColor }}>
           {item.name}
         </span>
       </motion.div>
@@ -75,7 +75,8 @@ const IconBar = ({
   onMusicClick,
   onStagesClick,
   onAlbumsClick,
-  onCreditClick
+  onCreditClick,
+  textColor,
 }) => {
   const mouseX = useMotionValue(Infinity);
   const containerScale = useMotionValue(1);
@@ -146,6 +147,7 @@ const IconBar = ({
             item={item}
             onClick={getClickHandler(item.name)}
             mouseX={mouseX}
+            textColor={textColor}
           />
         ))}
       </Glass>

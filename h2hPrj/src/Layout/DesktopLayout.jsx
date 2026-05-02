@@ -112,6 +112,7 @@ function DesktopLayout() {
         onAlbumsClick={() => handleTabChange('album')}
         onStagesClick={() => handleTabChange('stage')}
         onCreditClick={() => handleTabChange('credit')}
+        textColor={activeTab === 'credit' ? '#ffffff' : undefined}
       />
     </div>
   )

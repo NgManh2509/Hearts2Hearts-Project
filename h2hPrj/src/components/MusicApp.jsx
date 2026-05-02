@@ -21,10 +21,13 @@ const ExploreScroll = forwardRef(function ExploreScroll(
   const scrollRef = useRef(null);
   const itemsRef = useRef([]);
   const requestRef = useRef();
+  const prevIsOpen = useRef(false); // Track trạng thái đóng/mở panel
+  
   const [activeIndex, setActiveIndex] = useState(3);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playingId, setPlayingId] = useState(null);
   const audioRef = useRef(null);
+  
   const isMobile = useIsMobile();
   const dragControls = useDragControls();
 
@@ -83,6 +86,8 @@ const ExploreScroll = forwardRef(function ExploreScroll(
       setIsPlaying(true);
       if (onPlaySong) onPlaySong(nextSong);
       if (onPlayStateChange) onPlayStateChange(nextSong, true);
+      
+      // Auto-scroll mượt mà tới bài tiếp theo khi bài hiện tại kết thúc
       if (scrollRef.current && itemsRef.current[nextIndex]) {
         const targetItem = itemsRef.current[nextIndex];
         const itemCenter = targetItem.offsetTop + targetItem.offsetHeight / 2;
@@ -96,32 +101,46 @@ const ExploreScroll = forwardRef(function ExploreScroll(
     }
   };
 
+  // Tối ưu hóa hiệu năng render bằng DOM layout thrashing avoidance
   const calculateScroll = useCallback(() => {
     if (!scrollRef.current) return;
     const scrollArea = scrollRef.current;
-    const scrollRect = scrollArea.getBoundingClientRect();
-    const containerCenter = scrollRect.top + scrollRect.height / 2;
-    const maxDistance = scrollRect.height / 1.5;
+    
+    const scrollTop = scrollArea.scrollTop;
+    const containerHeight = scrollArea.clientHeight;
+    const containerCenter = scrollTop + containerHeight / 2;
+    
+    // Khóa min khoảng cách để tránh animation giật lùi trên thiết bị màn nhỏ
+    const maxDistance = Math.max(containerHeight / 1.5, 300);
+
     let closestIdx = 0;
     let minDistance = Infinity;
+
     itemsRef.current.forEach((item, index) => {
       if (!item) return;
-      const itemRect = item.getBoundingClientRect();
-      const itemCenter = itemRect.top + itemRect.height / 2;
+      
+      // Sử dụng offsetTop tính toán nhanh hơn getBoundingClientRect
+      const itemCenter = item.offsetTop + item.offsetHeight / 2;
       const deltaY = itemCenter - containerCenter;
+      
       let ratio = deltaY / maxDistance;
       ratio = Math.max(-1, Math.min(1, ratio));
+      
       const maxOffsetX = isMobile ? 80 : 180;
       const translateX = Math.pow(ratio, 2) * maxOffsetX;
       const opacity = 1 - Math.abs(ratio) * 0.85;
       const scale = 1 - Math.abs(ratio) * 0.12;
-      item.style.transform = `translateX(${translateX}px) scale(${scale})`;
+      
+      // Sử dụng translate3d cho GPU Hardware Acceleration
+      item.style.transform = `translate3d(${translateX}px, 0, 0) scale(${scale})`;
       item.style.opacity = opacity;
+      
       if (Math.abs(deltaY) < minDistance) {
         minDistance = Math.abs(deltaY);
         closestIdx = index;
       }
     });
+    
     setActiveIndex(prev => (prev !== closestIdx ? closestIdx : prev));
   }, [isMobile]);
 
@@ -130,24 +149,33 @@ const ExploreScroll = forwardRef(function ExploreScroll(
     requestRef.current = requestAnimationFrame(calculateScroll);
   };
 
+  // Xử lý auto-focus đúng vị trí CHỈ KHI PANEL VỪA MỞ LÊN
   useEffect(() => {
-    if (!isOpen || !scrollRef.current) return;
+    const justOpened = isOpen && !prevIsOpen.current;
+    prevIsOpen.current = isOpen;
 
-    // Scroll đến bài đang phát, nếu chưa phát bài nào thì về index 3
+    if (!justOpened || !scrollRef.current) return;
+
+    // Focus chính xác bài đang phát, không trừ 1
     const targetIndex = playingId
       ? musicData.findIndex(s => s.id === playingId)
       : 3;
-    const safeIndex = targetIndex === -1 ? 3 : targetIndex - 1;
+    const safeIndex = targetIndex !== -1 ? targetIndex : 3;
 
-    // Dùng requestAnimationFrame để đảm bảo DOM đã render xong
     const raf = requestAnimationFrame(() => {
-      const targetItem = itemsRef.current[safeIndex];
-      if (targetItem && scrollRef.current) {
-        const itemCenter = targetItem.offsetTop + targetItem.offsetHeight / 2;
-        scrollRef.current.scrollTop = itemCenter - scrollRef.current.clientHeight / 2;
-        calculateScroll();
-        setActiveIndex(safeIndex);
-      }
+      // Delay siêu nhỏ đợi Framer Motion bung layout ra hoàn toàn
+      setTimeout(() => {
+        if (!scrollRef.current) return;
+        
+        const targetItem = itemsRef.current[safeIndex];
+        if (targetItem) {
+          const itemCenter = targetItem.offsetTop + targetItem.offsetHeight / 2;
+          scrollRef.current.scrollTop = itemCenter - scrollRef.current.clientHeight / 2;
+          
+          calculateScroll();
+          setActiveIndex(safeIndex);
+        }
+      }, 50);
     });
 
     return () => {
@@ -270,7 +298,6 @@ const ExploreScroll = forwardRef(function ExploreScroll(
                   width: '100%',
                 }}
               >
-                {/* Audio node đã mount ở ngoài — không cần ở đây nữa */}
                 {/* Drag handle — mobile */}
                 <div
                   className="flex justify-center pt-3 pb-1 flex-shrink-0 cursor-grab active:cursor-grabbing touch-none"
@@ -300,11 +327,11 @@ const ExploreScroll = forwardRef(function ExploreScroll(
                   </button>
                 </div>
 
-                {/* Scroll Area */}
+                {/* Scroll Area - Đã bổ sung relative */}
                 <div
                   ref={scrollRef}
                   onScroll={handleScroll}
-                  className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth hide-scrollbar min-h-0"
+                  className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth hide-scrollbar min-h-0 relative"
                   style={{
                     WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent 100%)',
                     maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent 100%)',
@@ -435,12 +462,12 @@ const ExploreScroll = forwardRef(function ExploreScroll(
                   </button>
                 </div>
 
-                {/* Scroll Area */}
+                {/* Scroll Area - Đã bổ sung relative */}
                 <div
                   ref={scrollRef}
                   onScroll={handleScroll}
                   onPointerDown={(e) => e.stopPropagation()}
-                  className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth hide-scrollbar min-h-0"
+                  className="flex-1 overflow-y-auto overflow-x-hidden scroll-smooth hide-scrollbar min-h-0 relative"
                   style={{
                     WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent 100%)',
                     maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent 100%)',
