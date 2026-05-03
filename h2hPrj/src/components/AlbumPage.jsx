@@ -186,7 +186,7 @@ const AlbumPage = () => {
                                 className="text-[clamp(14px,4cqw,18px)] font-medium text-gray-600 font-sans opacity-80 hover:opacity-100 hover:text-black transition-all flex items-center gap-3 max-w-full"
                                 style={{ flexDirection: idx % 2 === 0 ? 'row' : 'row-reverse' }}
                             >
-                                <span className="text-[clamp(10px,2cqw,12px)] shrink-0 font-mono opacity-50 text-gray-500">{String(sIdx + 1).padStart(2, '0')}</span>
+                                <span className="text-[clamp(10px,2cqw,12px)] shrink-0 font-mono text-gray-400">{String(sIdx + 1).padStart(2, '0')}</span>
                                 <TextAnimate text={song} className="" />
                             </li>
                         ))}

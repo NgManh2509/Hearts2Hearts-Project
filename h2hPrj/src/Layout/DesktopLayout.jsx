@@ -1,16 +1,17 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, Suspense, lazy } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import IconBar from '../components/IconBar'
-import HomePage from '../components/HomePage'
-import MemberPage from '../components/MemberPage'
 import MusicApp from '../components/MusicApp'
 import MiniPlayer from '../components/MiniPlayer'
 import musicData from '../data/musicData'
-import GalleryPage from '../components/galleryPage'
 import PageTransition from '../components/PageTransition'
-import AlbumPage from '../components/AlbumPage'
-import StagePage from '../components/StagePage'
-import CreditPage from '../components/CreditPage'
+import GalleryPage from '../components/galleryPage'
+
+const HomePage = lazy(() => import('../components/HomePage'))
+const MemberPage = lazy(() => import('../components/MemberPage'))
+const AlbumPage = lazy(() => import('../components/AlbumPage'))
+const StagePage = lazy(() => import('../components/StagePage'))
+const CreditPage = lazy(() => import('../components/CreditPage'))
 
 
 function DesktopLayout() {
@@ -69,12 +70,14 @@ function DesktopLayout() {
     <div className="relative w-full h-screen overflow-hidden bg-white">
       {/* Pages render without slide animation */}
       <div className="absolute inset-0">
-        {activeTab === 'home' && <HomePage />}
-        {activeTab === 'member' && <MemberPage />}
-        {activeTab === 'gallery' && <GalleryPage />}
-        {activeTab === 'album' && <AlbumPage />}
-        {activeTab === 'stage' && <StagePage />}
-        {activeTab === 'credit' && <CreditPage />}
+        <Suspense fallback={<div className="w-full h-full bg-[#FAFAFA]" />}>
+          {activeTab === 'home' && <HomePage />}
+          {activeTab === 'member' && <MemberPage />}
+          {activeTab === 'gallery' && <GalleryPage />}
+          {activeTab === 'album' && <AlbumPage />}
+          {activeTab === 'stage' && <StagePage />}
+          {activeTab === 'credit' && <CreditPage />}
+        </Suspense>
       </div>
 
       {/* Overlay Transition */}

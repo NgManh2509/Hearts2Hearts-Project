@@ -11,5 +11,21 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    target: 'esnext',
+    cssMinify: true,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('framer-motion')) return 'vendor-framer';
+            if (id.includes('react-icons')) return 'vendor-icons';
+            if (id.includes('react/') || id.includes('react-dom/')) return 'vendor-react';
+            return 'vendor';
+          }
+        }
+      }
+    }
+  }
 })
 

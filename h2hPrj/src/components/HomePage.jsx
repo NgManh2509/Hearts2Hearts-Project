@@ -1,12 +1,54 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 import Waves from '../../@/components/Waves';
 import TextHighlighter from '../support/textHighLight';
 import h2hLogo from '../assets/h2hLogo.svg';
-import cam1 from '../assets/homePageImg/cam1.webm';
-import cam2 from '../assets/homePageImg/cam2.webm';
-import img1 from '../assets/homePageImg/grpPhoto.jpg';
+import img1 from '../assets/homePageImg/grpPhoto.webp';
 
 const MEMBER = ['Jiwoo', 'Carmen', 'Yuha', 'Stella', 'Juun', 'A-na', 'Ian', 'Ye-on'];
+
+/** Lazy video: chỉ play khi vào viewport, không tải trước */
+function LazyVideo({ src, className, objectPosition, poster }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // Bắt đầu load và play khi vào viewport
+          if (video.paused) {
+            video.load();
+            video.play().catch(() => {}); // ignore autoplay policy errors
+          }
+        } else {
+          // Pause khi ra khỏi viewport để tiết kiệm CPU/network
+          video.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      poster={poster}
+      playsInline
+      loop
+      muted
+      preload="none"
+      className={className}
+      draggable={false}
+    />
+  );
+}
 
 export default function HomePage() {
   return (
@@ -29,7 +71,7 @@ export default function HomePage() {
 
       <div className="hidden lg:block absolute top-[3%] right-[4%] text-[0.6vw] tracking-[0.2em] font-sans-h2h text-[#75BEE9]/60 text-right z-0">
         <span>COLLECTIONS</span><br />
-        <span className="opacity-50">S2U 2025</span>
+        <span className="text-[#75BEE9]/60">S2U 2025</span>
       </div>
 
       <div className="hidden lg:flex absolute bottom-[4%] right-[2%] transform -rotate-90 origin-bottom-right text-[0.6vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/50 items-center gap-[1vw] z-0">
@@ -92,7 +134,11 @@ export default function HomePage() {
         transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
         className="relative lg:absolute lg:top-[4%] lg:left-[4%] w-[90%] mx-auto lg:mx-0 lg:w-[55%] xl:w-[58%] aspect-video lg:aspect-auto lg:h-[42%] xl:h-[48%] rounded-3xl lg:rounded-[2vw] overflow-hidden h2h-shadow group z-10"
       >
-        <video src={cam2} autoPlay playsInline loop muted className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" draggable={false} />
+        <LazyVideo
+          src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1777807052/cam2_aeuzsn.webm'
+          poster={img1}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+        />
       </motion.div>
 
       {/* BRAND NAME - HEART logo HEARTS */}
@@ -122,7 +168,11 @@ export default function HomePage() {
         transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
         className="relative lg:absolute lg:bottom-[2%] w-[80%] mx-auto lg:mx-0 lg:w-[38%] xl:w-[33%] lg:right-[1.5%] aspect-[3/4] lg:aspect-auto lg:h-[55%] xl:h-[60%] justify-end rounded-3xl lg:rounded-[2vw] overflow-hidden h2h-shadow group z-10"
       >
-        <video src={cam1} autoPlay playsInline loop muted className="w-full h-full object-cover object-[center_20%] group-hover:scale-105 transition-transform duration-700 ease-out" draggable={false} />
+        <LazyVideo
+          src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1777807053/cam1_trivye.webm'
+          poster={img1}
+          className="w-full h-full object-cover object-[center_20%] group-hover:scale-105 transition-transform duration-700 ease-out"
+        />
       </motion.div>
 
       {/* MEMBER NAMES */}
