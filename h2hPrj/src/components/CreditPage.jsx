@@ -4,14 +4,17 @@ import { FaYoutube } from 'react-icons/fa';
 import CreditImg from '../assets/creditImg.png';
 import Waves from './Waves';
 
+const BASE_WIDTH = 1793;
+const BASE_HEIGHT = 1344
+
 const CreditVisual = ({ variants }) => (
   <motion.div 
     className="lg:col-span-5 relative w-full aspect-square md:aspect-[4/5] lg:aspect-auto lg:h-[450px] xl:h-[600px] 2xl:h-[750px] flex items-center justify-center group"
     variants={variants}
   >
     <motion.div 
-      className=" rounded-[10px] md:rounded-[15px] xl:rounded-[20px] absolute w-[95%] h-[50%] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#FEE528] shadow-sm transition-all duration-500 ease-out"
-      initial={{ opacity: 0, scale: 0.8 }}
+      className="rounded-[10px] md:rounded-[15px] xl:rounded-[20px] absolute w-[95%] h-[50%] left-[2.5%] bottom-[25%] bg-[#FEE528] shadow-sm transition-all duration-500 ease-out"
+      initial={{ opacity: 0, scale: 0.8, originX: 0.5, originY: 0.5 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.3, duration: 0.8, type: 'spring' }}
     ></motion.div>
@@ -19,13 +22,11 @@ const CreditVisual = ({ variants }) => (
     <motion.img 
       src={CreditImg} 
       alt="Hearts2Hearts Credit" 
-      className="relative z-10 w-[122%] h-[122%] object-contain object-end drop-shadow-[10px_17px_15px_rgba(0,0,0,0.4)] 
-                 -translate-y-[60px] lg:-translate-y-[97px] xl:-translate-y-[76px] 
-                 translate-x-[40px] lg:translate-x-[62px] xl:translate-x-[78px] origin-right
+      className="absolute z-10 w-[122%] h-auto max-w-none origin-bottom-left
+                 left-[2.5%] bottom-[25%]
+                 drop-shadow-[10px_17px_15px_rgba(0,0,0,0.4)] 
                  transition-transform duration-500 ease-out 
-                 group-hover:scale-105 
-                 max-w-none group-hover:-translate-y-[75px] lg:group-hover:-translate-y-[95px] xl:group-hover:-translate-y-[67px]"
-      style={{originX: 0, originY: 1}}
+                 group-hover:scale-105"
     />
   </motion.div>
 );
