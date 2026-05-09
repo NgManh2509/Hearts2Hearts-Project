@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import DesktopLayout from './Layout/DesktopLayout'
 import MobileLayout from './Layout/MobileLayout'
+import ImagePreloader from './support/ImagePreloader'
 
 function App() {
   const [isMobile, setIsMobile] = useState(false);
@@ -13,7 +14,10 @@ function App() {
     return () => window.removeEventListener("resize", checkIsMobile)
   }, [])
   return(
-    isMobile ? <MobileLayout /> : <DesktopLayout />
+    <>
+      <ImagePreloader />
+      {isMobile ? <MobileLayout /> : <DesktopLayout />}
+    </>
   )
 }
 
