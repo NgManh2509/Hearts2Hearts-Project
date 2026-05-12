@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import imgCnt from '../data/imgCnt.json';
 import { motion, useMotionValue, useTransform, useMotionValueEvent } from "framer-motion";
+import ColorBlend from "../../@/components/ColorBlend";
 
 const images = Array.from({ length: imgCnt.count }, (_, i) => {
   return {
@@ -128,8 +129,13 @@ const SlidingPagination = ({ x, singleWidthRef, total }) => {
   });
 
   return (
-    <div className="relative h-12 w-[160px] flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 z-10 pointer-events-none bg-gradient-to-r from-[#0a0a0a] via-transparent to-[#0a0a0a]" />
+    <div 
+      className="relative h-12 w-[160px] flex items-center justify-center overflow-hidden"
+      style={{
+        maskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)'
+      }}
+    >
       {Array.from({ length: total }).map((_, i) => (
         <PaginationNumber key={i} index={i} scrollIndex={scrollIndex} total={total} />
       ))}
@@ -214,6 +220,12 @@ const GalleryPage = () => {
 
   return (
     <section className="relative min-h-screen bg-[#0a0a0a] py-10 xl:py-20 flex flex-col justify-center overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-auto opacity-50">
+        <ColorBlend 
+          colors={["#A855F7", "#9333EA", "#4C1D95"]}
+          speed={0.2}
+        />
+      </div>
       <CameraOverlay />
 
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-purple-900/20 blur-[120px] rounded-full pointer-events-none" />

@@ -108,10 +108,11 @@ const ExploreScroll = forwardRef(function ExploreScroll(
     
     const scrollTop = scrollArea.scrollTop;
     const containerHeight = scrollArea.clientHeight;
+    const containerWidth = scrollArea.clientWidth;
     const containerCenter = scrollTop + containerHeight / 2;
     
     // Khóa min khoảng cách để tránh animation giật lùi trên thiết bị màn nhỏ
-    const maxDistance = Math.max(containerHeight / 1.5, 300);
+    const maxDistance = Math.max(containerHeight / 1.5, 250);
 
     let closestIdx = 0;
     let minDistance = Infinity;
@@ -126,7 +127,7 @@ const ExploreScroll = forwardRef(function ExploreScroll(
       let ratio = deltaY / maxDistance;
       ratio = Math.max(-1, Math.min(1, ratio));
       
-      const maxOffsetX = isMobile ? 80 : 180;
+      const maxOffsetX = isMobile ? 80 : Math.min(140, containerWidth * 0.22);
       const translateX = Math.pow(ratio, 2) * maxOffsetX;
       const opacity = 1 - Math.abs(ratio) * 0.85;
       const scale = 1 - Math.abs(ratio) * 0.12;
@@ -433,10 +434,10 @@ const ExploreScroll = forwardRef(function ExploreScroll(
               <div
                 className="bg-[#F4F4F9] flex flex-col overflow-hidden relative select-none"
                 style={{
-                  borderRadius: '5px',
-                  boxShadow: '0 25px 50px rgba(0,0,0,0.15), inset 0 0 0 6px #fff',
-                  width: 'min(520px, calc(100vw - 160px))',
-                  height: 'min(600px, calc(100vh - 40px))',
+                  borderRadius: '12px',
+                  boxShadow: '0 25px 50px rgba(0,0,0,0.15), inset 0 0 0 4px #fff',
+                  width: 'clamp(340px, 40vw, 500px)',
+                  height: 'clamp(450px, 80vh, 600px)',
                 }}
               >
                 {/* Header — drag handle trên desktop */}
@@ -473,17 +474,17 @@ const ExploreScroll = forwardRef(function ExploreScroll(
                     maskImage: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,1) 85%, transparent 100%)',
                   }}
                 >
-                  <div className="flex flex-col gap-3" style={{ padding: '350px 0' }}>
+                  <div className="flex flex-col gap-3" style={{ padding: 'clamp(200px, 35vh, 300px) 0' }}>
                     {musicData.map((song, index) => {
                       const isActive = activeIndex === index;
-                      const imgActive = 95;
-                      const imgInactive = 85;
+                      const imgActive = 85;
+                      const imgInactive = 75;
                       return (
                         <div
                           key={index}
                           ref={(el) => (itemsRef.current[index] = el)}
                           className="flex justify-start w-full transition-opacity duration-100 ease-out will-change-transform"
-                          style={{ paddingLeft: '20px' }}
+                          style={{ paddingLeft: 'clamp(10px, 2vw, 20px)' }}
                         >
                           <div
                             className={`flex items-center p-2 rounded-[60px] transition-all duration-300 ease-out ${isActive ? 'bg-white/98 shadow-[0_15px_40px_rgba(0,0,0,0.04)] scale-[1.03]' : 'bg-transparent'}`}
@@ -497,16 +498,16 @@ const ExploreScroll = forwardRef(function ExploreScroll(
                                 style={{ width: isActive ? imgActive : imgInactive, height: isActive ? imgActive : imgInactive }}
                               />
                             </div>
-                            <div className="flex flex-col" style={{ marginLeft: '18px', minWidth: '120px' }}>
+                            <div className="flex flex-col" style={{ marginLeft: '16px', minWidth: 'clamp(90px, 12vw, 120px)' }}>
                               <div
                                 className={`font-['Playfair_Display',_serif] leading-[1.2] transition-colors duration-300 ease-out font-bold ${isActive ? 'text-[#111]' : 'text-[#999]'}`}
-                                style={{ fontSize: '20px' }}
+                                style={{ fontSize: 'clamp(16px, 1.8vw, 20px)' }}
                               >
                                 {song.title}
                               </div>
                               <div
                                 className={`font-['Lato',_sans-serif] mt-[5px] transition-colors duration-300 ease-out ${isActive ? 'text-[#555] font-normal' : 'text-[#bbb] font-light'}`}
-                                style={{ fontSize: '14px' }}
+                                style={{ fontSize: 'clamp(12px, 1vw, 14px)' }}
                               >
                                 Hearts2Hearts
                               </div>
