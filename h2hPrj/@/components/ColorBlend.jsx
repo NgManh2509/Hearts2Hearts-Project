@@ -295,23 +295,7 @@ export default function ColorBends({
     transparent
   ]);
 
-  useEffect(() => {
-    const material = materialRef.current;
-    const container = containerRef.current;
-    if (!material || !container) return;
 
-    const handlePointerMove = e => {
-      const rect = container.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / (rect.width || 1)) * 2 - 1;
-      const y = -(((e.clientY - rect.top) / (rect.height || 1)) * 2 - 1);
-      pointerTargetRef.current.set(x, y);
-    };
-
-    container.addEventListener('pointermove', handlePointerMove);
-    return () => {
-      container.removeEventListener('pointermove', handlePointerMove);
-    };
-  }, []);
 
   return <div ref={containerRef} className={`w-full h-full relative overflow-hidden ${className}`} style={style} />;
 }
