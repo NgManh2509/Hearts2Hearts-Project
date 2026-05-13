@@ -1,16 +1,74 @@
-# React + Vite
+# Hearts2Hearts Project (H2H)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive, visually stunning web application and fan tribute page built for the group **Hearts2Hearts (S2U 2025)**. This project features a highly polished user interface with smooth page transitions, custom animations, and a fully integrated music player.
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Interactive UI & Animations:** Built with `framer-motion` for fluid page transitions, scroll animations, and interactive elements.
+- **Integrated Music Player:** A persistent music player (`MusicApp` & `MiniPlayer`) that continues playing audio seamlessly while navigating across different pages.
+- **Responsive Layout:** Dynamically switches between `DesktopLayout` and `MobileLayout` to provide an optimized experience for all devices.
+- **Performance Optimized:** Includes custom components like `LazyVideo` for viewport-based media loading and an `ImagePreloader` utility to cache assets.
+- **Rich Sections:**
+  - **Home:** Visually striking landing page with background wave animations (`three.js`).
+  - **Members:** Profiles for the 8 members: Jiwoo, Carmen, Yuha, Stella, Juun, A-na, Ian, and Ye-on.
+  - **Albums & Stages:** Showcases music releases and performances.
+  - **Gallery:** Dynamically populated gallery using the `galleryCnt.js` support script.
+  - **Credits:** A dedicated credits section acknowledging contributions.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework:** React 19 + Vite
+- **Styling:** TailwindCSS v4
+- **Animations:** Framer Motion, tw-animate-css
+- **UI Components:** Radix UI, Shadcn, Lucide React, React Icons
+- **Visuals:** Three.js, Liquid-Glass-React
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```text
+src/
+├── assets/       # Static assets (images, logos, SVGs)
+├── components/   # Page components (HomePage, AlbumPage, etc.) and UI elements
+├── data/         # Application data (e.g., musicData.js)
+├── Layout/       # Layout wrappers (DesktopLayout.jsx, MobileLayout.jsx)
+├── lib/          # Utilities and configuration (e.g., utils for Shadcn)
+└── support/      # Helper scripts (ImagePreloader, galleryCnt.js)
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
+
+### Installation
+
+1. Clone the repository and navigate to the project directory (`h2hPrj`).
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+### Running Locally
+
+To start the development server, run:
+
+```bash
+npm run dev
+```
+*Note: This command automatically executes `galleryCnt.js` to build the gallery data before starting the Vite server.*
+
+### Building for Production
+
+To create a production build, run:
+
+```bash
+npm run build
+```
+
+## 📜 Scripts
+
+- `npm run dev`: Starts the local dev server.
+- `npm run build`: Builds the app for production.
+- `npm run lint`: Runs ESLint to check for code issues.
+- `npm run preview`: Previews the production build locally.
