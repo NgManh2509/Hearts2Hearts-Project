@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
-import Waves from '../../@/components/Waves';
+import DotField from '../../@/components/DotField';
 import TextHighlighter from '../support/textHighLight';
 import h2hLogo from '../assets/h2hLogo.svg';
 import img1 from '../assets/homePageImg/grpPhoto.webp';
@@ -53,21 +53,17 @@ function LazyVideo({ src, className, objectPosition, poster }) {
 export default function HomePage() {
   return (
     <div className="relative w-full min-h-screen lg:h-screen overflow-x-hidden lg:overflow-hidden bg-[#FAFAFA] select-none text-[#75BEE9] backdrop-blur-3xl flex flex-col lg:block pt-12 lg:pt-0 pb-20 lg:pb-0 gap-12 lg:gap-0">
-      <div className="fixed inset-0 w-full h-full opacity-60 pointer-events-none z-0">
-        <Waves
-          lineColor="#75BEE9"
-          backgroundColor="transparent"
-          waveSpeedX={0.02}
-          waveSpeedY={0.01}
-          waveAmpX={40}
-          waveAmpY={20}
-          friction={0.9}
-          tension={0.01}
-          maxCursorMove={120}
-          xGap={12}
-          yGap={36}
-        />
-      </div>
+      <div className="absolute inset-0 z-0 pointer-events-auto">
+            <DotField 
+                gradientFrom="#00C6FF"
+                gradientTo="#0072FF"
+                glowColor="transparent"
+                dotRadius={1.5}
+                dotSpacing={16}
+                cursorRadius={250}
+                cursorForce={0.1}
+            />
+        </div>
 
       <div className="hidden lg:block absolute top-[3%] right-[4%] text-[0.6vw] tracking-[0.2em] font-sans-h2h text-[#75BEE9]/60 text-right z-0">
         <span>COLLECTIONS</span><br />

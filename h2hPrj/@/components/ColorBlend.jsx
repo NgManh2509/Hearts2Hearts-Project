@@ -3,6 +3,10 @@ import * as THREE from 'three';
 
 const MAX_COLORS = 8;
 
+// Target FPS – giảm xuống để đỡ lag (60 = full, 30 = nhẹ hơn nhiều)
+const TARGET_FPS = 30;
+const FRAME_INTERVAL = 1000 / TARGET_FPS;
+
 const frag = `
 #define MAX_COLORS ${MAX_COLORS}
 uniform vec2 uCanvas;
@@ -55,8 +59,8 @@ void main() {
             vec2 r = sin(1.5 * (s.yx * uFrequency) + 2.0 * cos(s * uFrequency));
             float m0 = length(r + sin(5.0 * r.y * uFrequency - 3.0 * t + float(i)) / 4.0);
             float kBelow = clamp(uWarpStrength, 0.0, 1.0);
-            float kMix = pow(kBelow, 0.3); // strong response across 0..1
-            float gain = 1.0 + max(uWarpStrength - 1.0, 0.0); // allow >1 to amplify displacement
+            float kMix = pow(kBelow, 0.3);
+            float gain = 1.0 + max(uWarpStrength - 1.0, 0.0);
             vec2 disp = (r - s) * kBelow;
             vec2 warped = s + disp * gain;
             float m1 = length(warped + sin(5.0 * warped.y * uFrequency - 3.0 * t + float(i)) / 4.0);
@@ -135,6 +139,12 @@ export default function ColorBends({
   const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
   const pointerSmoothRef = useRef(8);
 
+  // Flags để pause loop khi cần
+  const isVisibleRef = useRef(true);   // IntersectionObserver
+  const isTabVisibleRef = useRef(true); // Page Visibility API
+  const lastFrameTimeRef = useRef(0);  // FPS throttle
+
+  // ─── Setup WebGL (chỉ chạy 1 lần) ───────────────────────────────────────
   useEffect(() => {
     const container = containerRef.current;
     const scene = new THREE.Scene();
@@ -178,9 +188,9 @@ export default function ColorBends({
       alpha: true
     });
     rendererRef.current = renderer;
-    // Three r152+ uses outputColorSpace and SRGBColorSpace
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    // ✅ Giảm pixel ratio: 1 = đỡ lag nhất, 1.5 = cân bằng, 2 = sắc nhất
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
@@ -195,7 +205,6 @@ export default function ColorBends({
       renderer.setSize(w, h, false);
       material.uniforms.uCanvas.value.set(w, h);
     };
-
     handleResize();
 
     if ('ResizeObserver' in window) {
@@ -206,24 +215,45 @@ export default function ColorBends({
       window.addEventListener('resize', handleResize);
     }
 
-    const loop = () => {
+    // ✅ Dừng render khi component ra ngoài viewport
+    const io = new IntersectionObserver(
+      ([entry]) => { isVisibleRef.current = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    io.observe(container);
+
+    // ✅ Dừng render khi người dùng chuyển tab
+    const handleVisibilityChange = () => {
+      isTabVisibleRef.current = document.visibilityState === 'visible';
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    // ✅ Animation loop với FPS throttle
+    const loop = (timestamp) => {
+      rafRef.current = requestAnimationFrame(loop);
+
+      // Bỏ qua frame nếu không hiển thị
+      if (!isVisibleRef.current || !isTabVisibleRef.current) return;
+
+      // FPS throttle
+      if (timestamp - lastFrameTimeRef.current < FRAME_INTERVAL) return;
+      lastFrameTimeRef.current = timestamp;
+
       const dt = clock.getDelta();
       const elapsed = clock.elapsedTime;
       material.uniforms.uTime.value = elapsed;
 
       const deg = (rotationRef.current % 360) + autoRotateRef.current * elapsed;
       const rad = (deg * Math.PI) / 180;
-      const c = Math.cos(rad);
-      const s = Math.sin(rad);
-      material.uniforms.uRot.value.set(c, s);
+      material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
 
       const cur = pointerCurrentRef.current;
       const tgt = pointerTargetRef.current;
       const amt = Math.min(1, dt * pointerSmoothRef.current);
       cur.lerp(tgt, amt);
       material.uniforms.uPointer.value.copy(cur);
+
       renderer.render(scene, camera);
-      rafRef.current = requestAnimationFrame(loop);
     };
     rafRef.current = requestAnimationFrame(loop);
 
@@ -231,6 +261,8 @@ export default function ColorBends({
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       if (resizeObserverRef.current) resizeObserverRef.current.disconnect();
       else window.removeEventListener('resize', handleResize);
+      io.disconnect();
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
       geometry.dispose();
       material.dispose();
       renderer.dispose();
@@ -239,8 +271,9 @@ export default function ColorBends({
         container.removeChild(renderer.domElement);
       }
     };
-  }, [bandWidth, frequency, intensity, iterations, mouseInfluence, noise, parallax, scale, speed, transparent, warpStrength]);
+  }, []); // ✅ Chỉ init 1 lần duy nhất – không re-create WebGL context khi props đổi
 
+  // ─── Cập nhật uniforms khi props thay đổi (không re-init WebGL) ──────────
   useEffect(() => {
     const material = materialRef.current;
     const renderer = rendererRef.current;
@@ -279,23 +312,10 @@ export default function ColorBends({
     material.uniforms.uTransparent.value = transparent ? 1 : 0;
     if (renderer) renderer.setClearColor(0x000000, transparent ? 0 : 1);
   }, [
-    rotation,
-    autoRotate,
-    speed,
-    scale,
-    frequency,
-    warpStrength,
-    mouseInfluence,
-    parallax,
-    noise,
-    iterations,
-    intensity,
-    bandWidth,
-    colors,
-    transparent
+    rotation, autoRotate, speed, scale, frequency, warpStrength,
+    mouseInfluence, parallax, noise, iterations, intensity, bandWidth,
+    colors, transparent
   ]);
-
-
 
   return <div ref={containerRef} className={`w-full h-full relative overflow-hidden ${className}`} style={style} />;
 }
