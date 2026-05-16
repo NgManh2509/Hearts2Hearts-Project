@@ -247,7 +247,7 @@ const GalleryPage = () => {
           className="flex gap-4 xl:gap-8 cursor-grab active:cursor-grabbing w-max"
         >
           {tripleImages.map((image, index) => (
-            <motion.div
+            <div
               key={index}
               className="relative shrink-0 h-[40vh] xl:h-[450px] w-auto overflow-hidden rounded-[5px] xl:rounded-[10px] bg-neutral-900 shadow-xl"
             >
@@ -255,9 +255,10 @@ const GalleryPage = () => {
                 src={image.src}
                 alt={image.alt}
                 decoding="async"
+                loading="lazy"
                 className="h-full w-auto object-cover pointer-events-none"
               />
-            </motion.div>
+            </div>
           ))}
         </motion.div>
       </div>

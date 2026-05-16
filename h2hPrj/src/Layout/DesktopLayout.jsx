@@ -6,6 +6,7 @@ import MiniPlayer from '../components/MiniPlayer'
 import musicData from '../data/musicData'
 import PageTransition from '../components/PageTransition'
 import GalleryPage from '../components/galleryPage'
+import ImagePreloader from '../support/ImagePreloader'
 
 const HomePage = lazy(() => import('../components/HomePage'))
 const MemberPage = lazy(() => import('../components/MemberPage'))
@@ -23,6 +24,7 @@ function DesktopLayout() {
   const musicAppRef = useRef(null)
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [pendingTab, setPendingTab] = useState(null);
+  const [galleryPreloaded, setGalleryPreloaded] = useState(false);
 
   const handleTabChange = (newTab) => {
     if (newTab === activeTab || isTransitioning) return;
@@ -35,8 +37,12 @@ function DesktopLayout() {
     }, 1500);
   };
 
+  const handleGalleryClick = () => {
+    if (!galleryPreloaded) setGalleryPreloaded(true);
+    handleTabChange('gallery');
+  };
+
   const handlePlayingSong = (song, playing) => {
-    console.log("Đang chơi:", song?.title, "| Playing:", playing)
     setPlayingSong(song)
     setIsPlaying(playing)
     if(song) setMiniVisible(true)
@@ -68,7 +74,8 @@ function DesktopLayout() {
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-white">
-      {/* Pages render without slide animation */}
+      {galleryPreloaded && <ImagePreloader />}
+
       <div className="absolute inset-0">
         <Suspense fallback={<div className="w-full h-full bg-[#FAFAFA]" />}>
           {activeTab === 'home' && <HomePage />}
@@ -110,7 +117,7 @@ function DesktopLayout() {
       <IconBar 
         onHomeClick={() => handleTabChange('home')}
         onMemberClick={() => handleTabChange('member')}
-        onGalleryClick={() => handleTabChange('gallery')}
+        onGalleryClick={handleGalleryClick}
         onMusicClick={() => setMusicOpen(prev => !prev)}
         onAlbumsClick={() => handleTabChange('album')}
         onStagesClick={() => handleTabChange('stage')}

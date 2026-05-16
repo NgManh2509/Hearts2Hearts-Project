@@ -139,12 +139,10 @@ export default function ColorBends({
   const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
   const pointerSmoothRef = useRef(8);
 
-  // Flags để pause loop khi cần
-  const isVisibleRef = useRef(true);   // IntersectionObserver
-  const isTabVisibleRef = useRef(true); // Page Visibility API
-  const lastFrameTimeRef = useRef(0);  // FPS throttle
+  const isVisibleRef = useRef(true);
+  const isTabVisibleRef = useRef(true);
+  const lastFrameTimeRef = useRef(0);
 
-  // ─── Setup WebGL (chỉ chạy 1 lần) ───────────────────────────────────────
   useEffect(() => {
     const container = containerRef.current;
     const scene = new THREE.Scene();
@@ -189,7 +187,6 @@ export default function ColorBends({
     });
     rendererRef.current = renderer;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    // ✅ Giảm pixel ratio: 1 = đỡ lag nhất, 1.5 = cân bằng, 2 = sắc nhất
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
     renderer.domElement.style.width = '100%';

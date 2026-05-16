@@ -30,6 +30,7 @@ const DotField = memo(({
   propsRef.current = { dotRadius, dotSpacing, cursorRadius, cursorForce, bulgeOnly, bulgeStrength, sparkle, waveAmplitude, gradientFrom, gradientTo };
   const rebuildRef = useRef(null);
   const glowIdRef = useRef(`dot-field-glow-${Math.random().toString(36).slice(2, 9)}`);
+  const isTabActiveRef = useRef(true); // dừng tick khi user chuyển tab Chrome
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -107,6 +108,12 @@ const DotField = memo(({
     let frameCount = 0;
 
     function tick() {
+      // Dừng nếu tab ẩn — tránh ngốn CPU khi user chuyển tab
+      if (!isTabActiveRef.current) {
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
       frameCount++;
       const dots = dotsRef.current;
       const m = mouseRef.current;
@@ -206,6 +213,13 @@ const DotField = memo(({
     doResize();
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', onMouseMove, { passive: true });
+
+    // Dừng RAF khi user chuyển sang tab khác
+    const handleVisibilityChange = () => {
+      isTabActiveRef.current = document.visibilityState === 'visible';
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     rafRef.current = requestAnimationFrame(tick);
 
     rebuildRef.current = () => {
@@ -219,6 +233,7 @@ const DotField = memo(({
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', resize);
       window.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
