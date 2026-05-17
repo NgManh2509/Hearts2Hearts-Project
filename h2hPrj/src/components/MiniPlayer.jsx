@@ -35,6 +35,38 @@ const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext, s
     return () => window.removeEventListener('resize', updateScale);
   }, [containerScale]);
 
+  useEffect(() => {
+    if ('mediaSession' in navigator && song) {
+      navigator.mediaSession.metadata = new window.MediaMetadata({
+        title: song.title || 'Unknown Title',
+        artist: 'Hearts2Hearts',
+        album: 'Hearts2Hearts Playlist',
+        artwork: [
+          { src: songCover, sizes: '96x96', type: 'image/jpeg' },
+          { src: songCover, sizes: '128x128', type: 'image/jpeg' },
+          { src: songCover, sizes: '192x192', type: 'image/jpeg' },
+          { src: songCover, sizes: '256x256', type: 'image/jpeg' },
+          { src: songCover, sizes: '384x384', type: 'image/jpeg' },
+          { src: songCover, sizes: '512x512', type: 'image/jpeg' },
+        ]
+      });
+
+      navigator.mediaSession.setActionHandler('play', onPlayPause);
+      navigator.mediaSession.setActionHandler('pause', onPlayPause);
+      navigator.mediaSession.setActionHandler('previoustrack', onPrev);
+      navigator.mediaSession.setActionHandler('nexttrack', onNext);
+    }
+    
+    return () => {
+      if ('mediaSession' in navigator) {
+        navigator.mediaSession.setActionHandler('play', null);
+        navigator.mediaSession.setActionHandler('pause', null);
+        navigator.mediaSession.setActionHandler('previoustrack', null);
+        navigator.mediaSession.setActionHandler('nexttrack', null);
+      }
+    };
+  }, [song, songCover, onPlayPause, onPrev, onNext]);
+
   const handleCardClick = (e) => {
     if (e.target.closest('button')) return;
     setIsControls((prev) => !prev);
@@ -61,7 +93,6 @@ const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext, s
             transformOrigin: 'top right'
           }}
         >
-          {/* ─── Shape-morphing container ─── */}
           <motion.div
             animate={isMinimized
               ? { width: 64, height: 64, borderRadius: 32, backgroundColor: 'rgba(255,255,255,0.15)', padding: 0 }
