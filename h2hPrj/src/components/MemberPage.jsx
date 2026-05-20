@@ -11,7 +11,7 @@ const SPRING_OPTIONS = { type: 'spring', stiffness: 300, damping: 30 };
 
 function CarouselItem({ item, index, itemWidth, trackItemOffset, x, transition }) {
   const range = [-(index + 1) * trackItemOffset, -index * trackItemOffset, -(index - 1) * trackItemOffset];
-  
+
   // Create a 3D coverflow effect
   const rotateY = useTransform(x, range, [30, 0, -30], { clamp: false });
   const scale = useTransform(x, range, [0.85, 1, 0.85], { clamp: false });
@@ -33,7 +33,7 @@ function CarouselItem({ item, index, itemWidth, trackItemOffset, x, transition }
       transition={transition}
     >
       <div className="w-full h-full pointer-events-auto">
-        <MemberDesktop 
+        <MemberDesktop
           name={item.stageName}
           bornPlace={item.birthPlace}
           birthDay={item.birthDay}
@@ -68,7 +68,7 @@ function Carousel({
   loop = true,
 }) {
   const { w: windowWidth, h: windowHeight } = useWindowDimensions();
-  
+
   // Scale down based on both width (take at most 85% width) 
   // AND height (take at most 60% height to leave room for IconBar/dots)
   // Aspect ratio is 5:3, meaning width = height * (5/3)
@@ -78,7 +78,7 @@ function Carousel({
 
   const itemWidth = Math.min(baseWidth, maxWidthByScreen, targetWidthByHeight);
   const trackItemOffset = itemWidth + GAP;
-  
+
   const itemsForRender = useMemo(() => {
     if (!loop) return items;
     if (items.length === 0) return [];
@@ -196,11 +196,11 @@ function Carousel({
   const dragProps = loop
     ? {}
     : {
-        dragConstraints: {
-          left: -trackItemOffset * Math.max(itemsForRender.length - 1, 0),
-          right: 0
-        }
-      };
+      dragConstraints: {
+        left: -trackItemOffset * Math.max(itemsForRender.length - 1, 0),
+        right: 0
+      }
+    };
 
   const activeIndex =
     items.length === 0 ? 0 : loop ? (position - 1 + items.length) % items.length : Math.min(position, items.length - 1);
@@ -245,11 +245,10 @@ function Carousel({
           {items.map((_, index) => (
             <motion.div
               key={index}
-              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
-                activeIndex === index
-                    ? 'bg-black'
-                    : 'bg-[#d4d4d4]'
-              }`}
+              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${activeIndex === index
+                ? 'bg-black'
+                : 'bg-[#d4d4d4]'
+                }`}
               animate={{
                 scale: activeIndex === index ? 1.4 : 1
               }}
@@ -264,24 +263,24 @@ function Carousel({
 }
 
 export default function MemberPage() {
-    return (
-        <div className="w-full min-h-[100dvh] bg-[#fdfdfd] relative flex flex-col items-center justify-center pt-10 pb-[120px] overflow-hidden">
-            <div className="absolute inset-0 z-0 pointer-events-auto">
-                <DotField 
-                    gradientFrom="#00C6FF"
-                    gradientTo="#0072FF"
-                    glowColor="transparent"
-                    dotRadius={1.5}
-                    dotSpacing={16}
-                    cursorRadius={250}
-                    cursorForce={0.1}
-                />
-            </div>
-            <div className="relative z-10 w-full flex-grow flex items-center justify-center pointer-events-none">
-                <div className="w-full relative pointer-events-auto">
-                    <Carousel items={memberData} baseWidth={1000} loop={true} />
-                </div>
-            </div>
+  return (
+    <div className="w-full min-h-[100dvh] bg-[#fdfdfd] relative flex flex-col items-center justify-center pt-10 pb-[120px] overflow-hidden">
+      <div className="absolute inset-0 z-0 pointer-events-auto">
+        <DotField
+          gradientFrom="#00C6FF"
+          gradientTo="#0072FF"
+          glowColor="transparent"
+          dotRadius={1.5}
+          dotSpacing={16}
+          cursorRadius={250}
+          cursorForce={0.1}
+        />
+      </div>
+      <div className="relative z-10 w-full flex-grow flex items-center justify-center pointer-events-none">
+        <div className="w-full relative pointer-events-auto">
+          <Carousel items={memberData} baseWidth={1000} loop={true} />
         </div>
-    )
+      </div>
+    </div>
+  )
 }

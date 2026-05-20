@@ -22,12 +22,12 @@ const ExploreScroll = forwardRef(function ExploreScroll(
   const itemsRef = useRef([]);
   const requestRef = useRef();
   const prevIsOpen = useRef(false); // Track trạng thái đóng/mở panel
-  
+
   const [activeIndex, setActiveIndex] = useState(3);
   const [isPlaying, setIsPlaying] = useState(false);
   const [playingId, setPlayingId] = useState(null);
   const audioRef = useRef(null);
-  
+
   const isMobile = useIsMobile();
   const dragControls = useDragControls();
 
@@ -86,7 +86,7 @@ const ExploreScroll = forwardRef(function ExploreScroll(
       setIsPlaying(true);
       if (onPlaySong) onPlaySong(nextSong);
       if (onPlayStateChange) onPlayStateChange(nextSong, true);
-      
+
       // Auto-scroll mượt mà tới bài tiếp theo khi bài hiện tại kết thúc
       if (scrollRef.current && itemsRef.current[nextIndex]) {
         const targetItem = itemsRef.current[nextIndex];
@@ -105,12 +105,12 @@ const ExploreScroll = forwardRef(function ExploreScroll(
   const calculateScroll = useCallback(() => {
     if (!scrollRef.current) return;
     const scrollArea = scrollRef.current;
-    
+
     const scrollTop = scrollArea.scrollTop;
     const containerHeight = scrollArea.clientHeight;
     const containerWidth = scrollArea.clientWidth;
     const containerCenter = scrollTop + containerHeight / 2;
-    
+
     // Khóa min khoảng cách để tránh animation giật lùi trên thiết bị màn nhỏ
     const maxDistance = Math.max(containerHeight / 1.5, 250);
 
@@ -119,29 +119,29 @@ const ExploreScroll = forwardRef(function ExploreScroll(
 
     itemsRef.current.forEach((item, index) => {
       if (!item) return;
-      
+
       // Sử dụng offsetTop tính toán nhanh hơn getBoundingClientRect
       const itemCenter = item.offsetTop + item.offsetHeight / 2;
       const deltaY = itemCenter - containerCenter;
-      
+
       let ratio = deltaY / maxDistance;
       ratio = Math.max(-1, Math.min(1, ratio));
-      
+
       const maxOffsetX = isMobile ? 80 : Math.min(140, containerWidth * 0.22);
       const translateX = Math.pow(ratio, 2) * maxOffsetX;
       const opacity = 1 - Math.abs(ratio) * 0.85;
       const scale = 1 - Math.abs(ratio) * 0.12;
-      
+
       // Sử dụng translate3d cho GPU Hardware Acceleration
       item.style.transform = `translate3d(${translateX}px, 0, 0) scale(${scale})`;
       item.style.opacity = opacity;
-      
+
       if (Math.abs(deltaY) < minDistance) {
         minDistance = Math.abs(deltaY);
         closestIdx = index;
       }
     });
-    
+
     setActiveIndex(prev => (prev !== closestIdx ? closestIdx : prev));
   }, [isMobile]);
 
@@ -167,12 +167,12 @@ const ExploreScroll = forwardRef(function ExploreScroll(
       // Delay siêu nhỏ đợi Framer Motion bung layout ra hoàn toàn
       setTimeout(() => {
         if (!scrollRef.current) return;
-        
+
         const targetItem = itemsRef.current[safeIndex];
         if (targetItem) {
           const itemCenter = targetItem.offsetTop + targetItem.offsetHeight / 2;
           scrollRef.current.scrollTop = itemCenter - scrollRef.current.clientHeight / 2;
-          
+
           calculateScroll();
           setActiveIndex(safeIndex);
         }

@@ -7,7 +7,7 @@ const FlipCard = ({ videoUrl }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isAnimating, setIsAnimating] = useState(false);
     const [isVideoLoaded, setIsVideoLoaded] = useState(false);
-    
+
     const [videoSrc] = useState(videoUrl || FanCamData[Math.floor(Math.random() * FanCamData.length)]);
     const videoRef = useRef(null);
 
@@ -46,11 +46,11 @@ const FlipCard = ({ videoUrl }) => {
     };
 
     return (
-        <motion.div 
+        <motion.div
             className="flip card w-[55vw] sm:w-[38vw] md:w-[22vw] lg:w-[18vw] xl:w-[30vw] max-w-[350px] cursor-pointer" style={{ aspectRatio: '2/3' }}
             onClick={handleFlip}
-            initial={{y: 100}}
-            animate={{y: 0}}
+            initial={{ y: 100 }}
+            animate={{ y: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 22, mass: 0.8 }}
         >
             <motion.div
@@ -61,10 +61,10 @@ const FlipCard = ({ videoUrl }) => {
                 onAnimationComplete={() => setIsAnimating(false)}
             >
                 <div className="flip card-front absolute w-full h-full">
-                    <img 
-                        src={CardSvg} 
-                        alt="Card Front" 
-                        className="w-full h-full object-contain drop-shadow-[0_15px_20px_rgba(0,0,0,0.15)]" 
+                    <img
+                        src={CardSvg}
+                        alt="Card Front"
+                        className="w-full h-full object-contain drop-shadow-[0_15px_20px_rgba(0,0,0,0.15)]"
                     />
                 </div>
 

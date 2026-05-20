@@ -56,7 +56,7 @@ const MiniPlayer = ({ song, isPlaying, isVisible, onPlayPause, onPrev, onNext, s
       navigator.mediaSession.setActionHandler('previoustrack', onPrev);
       navigator.mediaSession.setActionHandler('nexttrack', onNext);
     }
-    
+
     return () => {
       if ('mediaSession' in navigator) {
         navigator.mediaSession.setActionHandler('play', null);

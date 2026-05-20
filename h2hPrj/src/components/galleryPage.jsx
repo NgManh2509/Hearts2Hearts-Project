@@ -37,61 +37,61 @@ const CameraOverlay = () => {
   );
 };
 
-const TextAnimate = ({text}) => {
-    return (
-        <motion.div 
-            className='relative block overflow-hidden whitespace-nowrap text-4xl md:text-6xl font-bold text-white tracking-tightery'
-            initial="batDau"
-            animate="hovered"
-        >
-        <div>
-            {text.split("").map((char, idx) => {
-                return (
-                    <motion.span key={idx}
-                        variants={{
-                            batDau: {y :0},
-                            hovered: {y : "-100%"}
-                        }}
-                        transition={{ 
-                            duration: 0.6,
-                            ease: [0.76, 0, 0.24, 1],
-                            delay: 0.025 * idx,
-                            repeat: Infinity,
-                            repeatType: "loop",
-                            repeatDelay: 4
-                        }}
-                        className='inline-block'
-                        >
-                        {char === " " ? "\u00A0" : char}
-                    </motion.span>
-                )
-            })}
-        </div>    
-         <div className='absolute inset-0'>
-            {text.split("").map((char, idx) => {
-                return (
-                    <motion.span key={idx}
-                        variants={{
-                            batDau: {y :"100%"},
-                            hovered: {y : "0%"}
-                        }}
-                        transition={{ 
-                            duration: 0.6,
-                            ease: [0.76, 0, 0.24, 1],
-                            delay: 0.025 * idx,
-                            repeat: Infinity,
-                            repeatType: "loop",
-                            repeatDelay: 4
-                        }}
-                        className='inline-block'
-                        >
-                        {char === " " ? "\u00A0" : char}
-                    </motion.span>
-                )
-            })}
-        </div>           
-        </motion.div>
-    )
+const TextAnimate = ({ text }) => {
+  return (
+    <motion.div
+      className='relative block overflow-hidden whitespace-nowrap text-4xl md:text-6xl font-bold text-white tracking-tightery'
+      initial="batDau"
+      animate="hovered"
+    >
+      <div>
+        {text.split("").map((char, idx) => {
+          return (
+            <motion.span key={idx}
+              variants={{
+                batDau: { y: 0 },
+                hovered: { y: "-100%" }
+              }}
+              transition={{
+                duration: 0.6,
+                ease: [0.76, 0, 0.24, 1],
+                delay: 0.025 * idx,
+                repeat: Infinity,
+                repeatType: "loop",
+                repeatDelay: 4
+              }}
+              className='inline-block'
+            >
+              {char === " " ? "\u00A0" : char}
+            </motion.span>
+          )
+        })}
+      </div>
+      <div className='absolute inset-0'>
+        {text.split("").map((char, idx) => {
+          return (
+            <motion.span key={idx}
+              variants={{
+                batDau: { y: "100%" },
+                hovered: { y: "0%" }
+              }}
+              transition={{
+                duration: 0.6,
+                ease: [0.76, 0, 0.24, 1],
+                delay: 0.025 * idx,
+                repeat: Infinity,
+                repeatType: "loop",
+                repeatDelay: 4
+              }}
+              className='inline-block'
+            >
+              {char === " " ? "\u00A0" : char}
+            </motion.span>
+          )
+        })}
+      </div>
+    </motion.div>
+  )
 }
 
 const PaginationNumber = ({ index, scrollIndex, total }) => {
@@ -129,7 +129,7 @@ const SlidingPagination = ({ x, singleWidthRef, total }) => {
   });
 
   return (
-    <div 
+    <div
       className="relative h-12 w-[160px] flex items-center justify-center overflow-hidden"
       style={{
         maskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)',
@@ -172,7 +172,7 @@ const GalleryPage = () => {
         if (singleWidthRef.current === 0) {
           x.set(-newSWidth);
         }
-        
+
         singleWidthRef.current = newSWidth;
       }
     };
@@ -221,7 +221,7 @@ const GalleryPage = () => {
   return (
     <section className="relative min-h-screen bg-[#0a0a0a] py-10 xl:py-20 flex flex-col justify-center overflow-hidden">
       <div className="absolute inset-0 z-0 pointer-events-auto opacity-50">
-        <ColorBlend 
+        <ColorBlend
           colors={["#A855F7", "#9333EA", "#4C1D95"]}
           speed={0.2}
         />

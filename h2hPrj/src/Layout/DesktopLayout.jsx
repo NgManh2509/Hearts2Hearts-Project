@@ -28,7 +28,7 @@ function DesktopLayout() {
 
   const handleTabChange = (newTab) => {
     if (newTab === activeTab || isTransitioning) return;
-    
+
     setPendingTab(newTab);
     setIsTransitioning(true);
     setTimeout(() => {
@@ -45,7 +45,7 @@ function DesktopLayout() {
   const handlePlayingSong = (song, playing) => {
     setPlayingSong(song)
     setIsPlaying(playing)
-    if(song) setMiniVisible(true)
+    if (song) setMiniVisible(true)
   }
 
   const handlePlayPause = () => {
@@ -55,17 +55,17 @@ function DesktopLayout() {
   };
 
   const handlePrev = () => {
-    if(!playingSong) return;
+    if (!playingSong) return;
     const index = musicData.findIndex(song => song.id === playingSong.id)
     const prevIdx = index <= 0 ? musicData.length - 1 : index - 1;
     const prevSong = musicData[prevIdx];
-    if(musicAppRef.current){
+    if (musicAppRef.current) {
       musicAppRef.current.playExternal(prevSong)
     }
   }
 
-  const handNext = () =>{
-    if(!playingSong) return
+  const handNext = () => {
+    if (!playingSong) return
     const index = musicData.findIndex(song => song.id === playingSong.id)
     const nextIndex = index + 1 >= musicData.length ? 0 : index + 1
     const nextSong = musicData[nextIndex]
@@ -102,7 +102,7 @@ function DesktopLayout() {
         canPlay={musicOpen}
         onPlayStateChange={handlePlayingSong}
       />
-      
+
 
       <MiniPlayer
         song={playingSong}
@@ -114,7 +114,7 @@ function DesktopLayout() {
         songCover={playingSong?.songCover}
       />
 
-      <IconBar 
+      <IconBar
         onHomeClick={() => handleTabChange('home')}
         onMemberClick={() => handleTabChange('member')}
         onGalleryClick={handleGalleryClick}

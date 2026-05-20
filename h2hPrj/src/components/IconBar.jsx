@@ -3,21 +3,21 @@ import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion';
 import { Glass } from '../support/liquid-glass';
 
 import homePageIcon from '../assets/iconBar/homePage.png';
-import memberIcon   from '../assets/iconBar/member.png';
-import galleryIcon  from '../assets/iconBar/gallery.png';
+import memberIcon from '../assets/iconBar/member.png';
+import galleryIcon from '../assets/iconBar/gallery.png';
 import musicAppIcon from '../assets/iconBar/musicApp.png';
-import fancamIcon   from '../assets/iconBar/fancam.png';
-import albumIcon    from '../assets/iconBar/albums.png';  
-import creditIcon   from '../assets/iconBar/note.png';
+import fancamIcon from '../assets/iconBar/fancam.png';
+import albumIcon from '../assets/iconBar/albums.png';
+import creditIcon from '../assets/iconBar/note.png';
 
 const iconData = [
-  { name: "Home",     src: homePageIcon },
-  { name: "Member",   src: memberIcon   },
-  { name: "Gallery",  src: galleryIcon  },
-  { name: "Music",    src: musicAppIcon },
-  { name: "Albums",   src: albumIcon    },
-  { name: "Stages",   src: fancamIcon   },
-  { name: "Credits",  src: creditIcon   },
+  { name: "Home", src: homePageIcon },
+  { name: "Member", src: memberIcon },
+  { name: "Gallery", src: galleryIcon },
+  { name: "Music", src: musicAppIcon },
+  { name: "Albums", src: albumIcon },
+  { name: "Stages", src: fancamIcon },
+  { name: "Credits", src: creditIcon },
 ];
 
 /* ─── AppIcon — macOS Dock magnify ─── */
@@ -32,15 +32,15 @@ function AppIcon({ item, onClick, mouseX, textColor = '#75BEE9' }) {
   });
 
   const scaleSync = useTransform(distance, [-150, 0, 150], [1, 1.8, 1]);
-  const scale     = useSpring(scaleSync, springConfig);
+  const scale = useSpring(scaleSync, springConfig);
 
   const widthSync = useTransform(scaleSync, [1, 1.8], [48, 86]);
-  const dynWidth  = useSpring(widthSync, springConfig);
+  const dynWidth = useSpring(widthSync, springConfig);
 
-  const zIndex    = useTransform(scaleSync, (v) => Math.round(v * 10));
+  const zIndex = useTransform(scaleSync, (v) => Math.round(v * 10));
 
-  const ySync     = useTransform(distance, [-150, 0, 150], [0, -10, 0]);
-  const yOffset   = useSpring(ySync, springConfig);
+  const ySync = useTransform(distance, [-150, 0, 150], [0, -10, 0]);
+  const yOffset = useSpring(ySync, springConfig);
 
   return (
     <motion.div
@@ -106,14 +106,14 @@ const IconBar = ({
 
   const getClickHandler = (name) => {
     switch (name) {
-      case "Home":     return onHomeClick;
-      case "Member":   return onMemberClick;
-      case "Gallery":  return onGalleryClick;
-      case "Music":    return onMusicClick;
-      case "Stages":   return onStagesClick;
-      case "Albums":   return onAlbumsClick;
-      case "Credits":  return onCreditClick;
-      default:         return () => {};
+      case "Home": return onHomeClick;
+      case "Member": return onMemberClick;
+      case "Gallery": return onGalleryClick;
+      case "Music": return onMusicClick;
+      case "Stages": return onStagesClick;
+      case "Albums": return onAlbumsClick;
+      case "Credits": return onCreditClick;
+      default: return () => { };
     }
   };
 
@@ -123,13 +123,13 @@ const IconBar = ({
       onMouseLeave={() => mouseX.set(Infinity)}
       className="origin-bottom"
       style={{
-        position:  'fixed',
-        bottom:    24,
-        left:      '50%',
-        x:         '-50%',
-        scale:     containerScale,
-        zIndex:    50,
-        width:     'max-content',
+        position: 'fixed',
+        bottom: 24,
+        left: '50%',
+        x: '-50%',
+        scale: containerScale,
+        zIndex: 50,
+        width: 'max-content',
         isolation: 'isolate',
       }}
     >

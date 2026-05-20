@@ -57,7 +57,7 @@ const Waves = () => (
     >
       <defs>
         <linearGradient id="wg1" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%"   stopColor="#5AAFD6" />
+          <stop offset="0%" stopColor="#5AAFD6" />
           <stop offset="100%" stopColor="#3A8FBF" />
         </linearGradient>
       </defs>
@@ -129,9 +129,9 @@ const Waves = () => (
       />
 
       {/* subtle highlight bubbles */}
-      <circle cx="120"  cy="140" r="90"  fill="#FFFFFF" fillOpacity="0.05" />
-      <circle cx="1320" cy="80"  r="130" fill="#FFFFFF" fillOpacity="0.04" />
-      <circle cx="750"  cy="820" r="70"  fill="#FFFFFF" fillOpacity="0.06" />
+      <circle cx="120" cy="140" r="90" fill="#FFFFFF" fillOpacity="0.05" />
+      <circle cx="1320" cy="80" r="130" fill="#FFFFFF" fillOpacity="0.04" />
+      <circle cx="750" cy="820" r="70" fill="#FFFFFF" fillOpacity="0.06" />
     </svg>
   </div>
 );
