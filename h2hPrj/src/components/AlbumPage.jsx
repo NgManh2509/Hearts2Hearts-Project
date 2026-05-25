@@ -10,19 +10,19 @@ const AlbumCard = ({ album }) => {
             href={album.albumLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full max-w-[320px] block relative group aspect-square overflow-hidden bg-gray-100 cursor-pointer transition-all duration-300 [container-type:inline-size]"
+            className="w-[100%] block relative group aspect-square overflow-hidden bg-gray-100 cursor-pointer transition-all duration-300"
         >
             <img
                 src={album.albumCover}
                 alt={album.albumName}
-                className="w-full h-full object-cover object-center transition-transform duration-300 group-hover:scale-110"
+                className="w-[100%] h-[100%] object-cover object-center transition-transform duration-300 group-hover:scale-110"
             />
             <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute md:inset-0 md:flex md:flex-col md:items-center md:justify-center md:p-4 max-md:bottom-0 max-md:right-0 max-md:p-0 max-md:m-0 max-md:-translate-x-2 max-md:translate-y-2 flex flex-col items-end md:items-center">
-                    <span className="text-gray-300 text-[clamp(8px,4cqw,14px)] font-semibold uppercase tracking-widest mb-1 max-w-full whitespace-nowrap px-1">
+                <div className="absolute inset-0 flex flex-col items-center justify-center p-[0.84vw]">
+                    <span className="text-gray-300 text-[0.73vw] font-semibold uppercase tracking-widest mb-[0.21vw] max-w-[100%] whitespace-nowrap px-[0.21vw]">
                         {album.albumType || 'nodata'}
                     </span>
-                    <span className="text-white text-[clamp(10px,8cqw,22px)] font-bold font-serif text-right md:text-center max-w-full px-1">
+                    <span className="text-white text-[1.15vw] font-bold font-serif text-center max-w-[100%] px-[0.21vw]">
                         {album.albumName || 'nodata'}
                     </span>
                 </div>
@@ -119,7 +119,7 @@ const TextAnimate1 = ({ text, idx = 0, className }) => {
 
 const AlbumPage = () => {
     return (
-        <div className='w-full h-screen bg-[#fdfdfd] text-black overflow-hidden flex flex-col lg:flex-row relative z-10'>
+        <div className='w-[100vw] h-[100vh] bg-[#fdfdfd] text-black overflow-hidden flex flex-row relative z-10'>
             <div className="absolute inset-0 z-0 pointer-events-auto">
                 <DotField
                     gradientFrom="#00C6FF"
@@ -131,12 +131,11 @@ const AlbumPage = () => {
                     cursorForce={0.1}
                 />
             </div>
-            {/* Decorative Stars */}
 
             {/* Left Side: Album Grid */}
-            <div className='relative w-full lg:w-1/2 h-1/2 lg:h-full [mask-image:linear-gradient(to_right,transparent_0%,black_15%,black_85%,transparent_100%)]'>
-                <div className="absolute left-0 w-full z-10 md:-top-[1%] -top-[3.5%]">
-                    <div className="w-full">
+            <div className='relative w-[50vw] h-[100vh] [mask-image:linear-gradient(to_right,transparent_0%,black_15%,black_85%,transparent_100%)]'>
+                <div className="absolute left-0 w-[100%] z-10 -top-[1%]">
+                    <div className="w-[100%]">
                         <CurvedLoop
                             text="ALBUM"
                             speed={1}
@@ -153,8 +152,8 @@ const AlbumPage = () => {
                     </div>
                 </div>
 
-                <div className='w-full h-full p-4 md:p-8 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col relative z-0'>
-                    <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-auto py-12 pt-32'>
+                <div className='w-[100%] h-[100%] p-[1.67vw] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col relative z-0'>
+                    <div className='grid grid-cols-4 gap-[0.84vw] my-auto py-[2.51vw] pt-[6.69vw]'>
                         {albumData.map((album) => (
                             <AlbumCard key={album.id} album={album} />
                         ))}
@@ -163,30 +162,30 @@ const AlbumPage = () => {
             </div>
 
             {/* Right Side: Album Info & Tracklist */}
-            <div className='w-full lg:w-1/2 h-1/2 lg:h-full p-6 md:py-16 md:px-8 lg:pl-10 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col gap-2 pb-30'>
+            <div className='w-[50vw] h-[100vh] py-[3.35vw] px-[1.67vw] pl-[2.09vw] pb-[6.28vw] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] flex flex-col gap-[0.42vw]'>
                 {albumData.map((album, idx) => (
                     <div
                         key={`info-${album.id}`}
-                        className={`w-full flex flex-col [container-type:inline-size] ${idx % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}
+                        className={`w-[100%] flex flex-col ${idx % 2 === 0 ? 'items-start text-left' : 'items-end text-right'}`}
                     >
                         <TextAnimate
                             text={album.albumType}
-                            className="mb-0 text-gray-500 text-[clamp(10px,3cqw,14px)] font-semibold tracking-[0.2em] uppercase max-w-full"
+                            className="mb-0 text-gray-500 text-[0.73vw] font-semibold tracking-[0.2em] uppercase max-w-[100%]"
                         />
 
                         <TextAnimate1
                             text={album.albumName}
-                            className="text-[clamp(24px,8cqw,48px)] font-black uppercase font-sans tracking-tighter text-black max-w-full"
+                            className="text-[2.51vw] font-black uppercase font-sans tracking-tighter text-black max-w-[100%]"
                         />
 
-                        <ul className={`mt-2 space-y-2 max-w-full ${idx % 2 === 0 ? 'text-left' : 'text-right'}`}>
+                        <ul className={`mt-[0.42vw] space-y-[0.42vw] max-w-[100%] ${idx % 2 === 0 ? 'text-left' : 'text-right'}`}>
                             {album.listSongs.map((song, sIdx) => (
                                 <li
                                     key={sIdx}
-                                    className="text-[clamp(14px,4cqw,18px)] font-medium text-gray-600 font-sans opacity-80 hover:opacity-100 hover:text-black transition-all flex items-center gap-3 max-w-full"
+                                    className="text-[0.94vw] font-medium text-gray-600 font-sans opacity-80 hover:opacity-100 hover:text-black transition-all flex items-center gap-[0.63vw] max-w-[100%]"
                                     style={{ flexDirection: idx % 2 === 0 ? 'row' : 'row-reverse' }}
                                 >
-                                    <span className="text-[clamp(10px,2cqw,12px)] shrink-0 font-mono text-gray-400">{String(sIdx + 1).padStart(2, '0')}</span>
+                                    <span className="text-[0.63vw] shrink-0 font-mono text-gray-400">{String(sIdx + 1).padStart(2, '0')}</span>
                                     <TextAnimate text={song} className="" />
                                 </li>
                             ))}

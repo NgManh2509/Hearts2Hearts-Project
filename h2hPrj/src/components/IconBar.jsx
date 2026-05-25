@@ -34,12 +34,12 @@ function AppIcon({ item, onClick, mouseX, textColor = '#75BEE9' }) {
   const scaleSync = useTransform(distance, [-150, 0, 150], [1, 1.8, 1]);
   const scale = useSpring(scaleSync, springConfig);
 
-  const widthSync = useTransform(scaleSync, [1, 1.8], [48, 86]);
+  const widthSync = useTransform(scaleSync, [1, 1.8], ["2.51vw", "4.5vw"]);
   const dynWidth = useSpring(widthSync, springConfig);
 
   const zIndex = useTransform(scaleSync, (v) => Math.round(v * 10));
 
-  const ySync = useTransform(distance, [-150, 0, 150], [0, -10, 0]);
+  const ySync = useTransform(distance, [-150, 0, 150], ["0vw", "-0.523vw", "0vw"]);
   const yOffset = useSpring(ySync, springConfig);
 
   return (
@@ -47,19 +47,19 @@ function AppIcon({ item, onClick, mouseX, textColor = '#75BEE9' }) {
       ref={ref}
       style={{ width: dynWidth, zIndex, flexShrink: 0 }}
       onClick={onClick}
-      className="relative flex items-end justify-center cursor-pointer h-full pb-2"
+      className="relative flex items-end justify-center cursor-pointer h-full pb-[0.418vw]"
     >
       <motion.div
         style={{ scale, y: yOffset, transformOrigin: 'bottom center' }}
-        className="absolute bottom-2 flex flex-col items-center pointer-events-none"
+        className="absolute bottom-[0.418vw] flex flex-col items-center pointer-events-none"
       >
         <img
           src={item.src}
           alt={item.name}
           draggable="false"
-          className="w-12 h-12 object-contain drop-shadow-xl"
+          className="w-[2.51vw] h-[2.51vw] object-contain drop-shadow-xl"
         />
-        <span className="text-[11px] mt-1 font-serif-h2h font-bold drop-shadow-sm select-none" style={{ color: textColor }}>
+        <span className="text-[0.575vw] mt-[0.209vw] font-serif-h2h font-bold drop-shadow-sm select-none" style={{ color: textColor }}>
           {item.name}
         </span>
       </motion.div>
@@ -79,30 +79,6 @@ const IconBar = ({
   textColor,
 }) => {
   const mouseX = useMotionValue(Infinity);
-  const containerScale = useMotionValue(1);
-
-  useEffect(() => {
-    const updateScale = () => {
-      const width = window.innerWidth;
-      // Fluid responsiveness for different screen sizes
-      if (width >= 1536) {
-        containerScale.set(1);
-      } else if (width >= 1024) {
-        // Desktop responsiveness: smooth scale between 1024px and 1536px
-        containerScale.set(0.75 + ((width - 1024) / (1536 - 1024)) * 0.25);
-      } else if (width >= 768) {
-        // Tablet: smooth scale between 768px and 1024px
-        containerScale.set(0.6 + ((width - 768) / (1024 - 768)) * 0.15);
-      } else {
-        // Mobile
-        containerScale.set(0.4 + ((Math.max(width, 320) - 320) / (768 - 320)) * 0.2);
-      }
-    };
-
-    updateScale();
-    window.addEventListener('resize', updateScale);
-    return () => window.removeEventListener('resize', updateScale);
-  }, [containerScale]);
 
   const getClickHandler = (name) => {
     switch (name) {
@@ -124,10 +100,9 @@ const IconBar = ({
       className="origin-bottom"
       style={{
         position: 'fixed',
-        bottom: 24,
+        bottom: '1.25vw',
         left: '50%',
         x: '-50%',
-        scale: containerScale,
         zIndex: 50,
         width: 'max-content',
         isolation: 'isolate',
@@ -136,10 +111,8 @@ const IconBar = ({
       {/* ── Glassmorphism dock ── */}
       <Glass
         variant="bold"
-        borderRadius={24}
-        height={85}
-        className="!overflow-visible"
-        innerClassName="flex flex-row items-end gap-[20px] px-[20px]"
+        className="!overflow-visible !h-[4.446vw] !rounded-[1.25vw]"
+        innerClassName="flex flex-row items-end gap-[1.046vw] px-[1.046vw]"
       >
         {iconData.map((item, index) => (
           <AppIcon

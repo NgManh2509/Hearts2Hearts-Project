@@ -50,8 +50,8 @@ const MemberDesktop = ({ name, bornPlace, birthDay, pos, bio, images }) => {
                 <div
                   key={idx}
                   className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${idx === currentImageIndex
-                      ? 'bg-white scale-110'
-                      : 'bg-white/40'
+                    ? 'bg-white scale-110'
+                    : 'bg-white/40'
                     }`}
                 />
               ))}
