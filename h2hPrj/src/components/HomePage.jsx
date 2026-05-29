@@ -50,7 +50,7 @@ function LazyVideo({ src, className, objectPosition, poster }) {
 
 export default function HomePage() {
   return (
-    <div className="relative w-[100vw] h-[100vh] overflow-hidden bg-[#FAFAFA] select-none text-[#75BEE9] backdrop-blur-3xl block">
+    <div className="relative w-[100vw] h-[100vh] overflow-hidden bg-[#FAFAFA] select-none text-[#75BEE9] backdrop-blur-3xl block 3xl:backdrop-blur-[60px]">
 
       {/* Background Dots */}
       <div className="absolute inset-0 z-0 pointer-events-auto">
@@ -66,21 +66,21 @@ export default function HomePage() {
       </div>
 
       {/* Collections Text */}
-      <div className="absolute top-[1.49vw] right-[4vw] text-[0.6vw] tracking-[0.2em] font-sans-h2h text-[#75BEE9]/60 text-right z-0">
+      <div className="absolute top-[1.49vw] right-[4vw] text-[0.6vw] tracking-[0.2em] font-sans-h2h text-[#75BEE9]/60 text-right z-0 3xl:top-[1.49vw] 3xl:right-[4vw] 3xl:text-[0.6vw] 3xl:tracking-[0.2em]">
         <span>COLLECTIONS</span><br />
         <span className="text-[#75BEE9]/60">S2U 2025</span>
       </div>
 
       {/* Project Hearts Text */}
-      <div className="absolute flex bottom-[1.98vw] right-[2vw] transform -rotate-90 origin-bottom-right text-[0.6vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/50 items-center gap-[1vw] z-0">
+      <div className="absolute flex bottom-[1.98vw] right-[2vw] transform -rotate-90 origin-bottom-right text-[0.6vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/50 items-center gap-[1vw] z-0 3xl:bottom-[1.98vw] 3xl:right-[2vw] 3xl:text-[0.6vw] 3xl:tracking-[0.3em] 3xl:gap-[1vw]">
         <span>PROJECT HEARTS</span>
-        <span className="w-[3vw] h-[0.05vw] bg-[#75BEE9]/40"></span>
+        <span className="w-[3vw] h-[0.05vw] bg-[#75BEE9]/40 3xl:w-[3vw] 3xl:h-[0.05vw]"></span>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute flex bottom-[1.49vw] left-[50vw] transform -translate-x-[50%] flex-col items-center gap-[0.5vw] z-0">
-        <span className="text-[0.5vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/70 uppercase ml-[0.3em]">Scroll</span>
-        <div className="w-[0.05vw] h-[2.48vw] bg-[#75BEE9]/20 overflow-hidden relative">
+      <div className="absolute flex bottom-[1.49vw] left-[50vw] transform -translate-x-[50%] flex-col items-center gap-[0.5vw] z-0 3xl:bottom-[1.49vw] 3xl:left-[50vw] 3xl:gap-[0.5vw]">
+        <span className="text-[0.5vw] tracking-[0.3em] font-sans-h2h text-[#75BEE9]/70 uppercase ml-[0.3em] 3xl:text-[0.5vw] 3xl:tracking-[0.3em] 3xl:ml-[0.3em]">Scroll</span>
+        <div className="w-[0.05vw] h-[2.48vw] bg-[#75BEE9]/20 overflow-hidden relative 3xl:w-[0.05vw] 3xl:h-[2.48vw]">
           <motion.div
             className="w-[100%] h-[50%] bg-[#75BEE9]"
             animate={{ y: ['-100%', '200%'] }}
@@ -90,7 +90,7 @@ export default function HomePage() {
       </div>
 
       {/* Track list (Zigzag) */}
-      <div className="absolute top-[2.48vw] right-[22vw] w-[20vw] flex flex-col tracking-tighter scale-[0.7] transform origin-top-right z-10 items-start" style={{ fontSize: '6.8vw', lineHeight: '0.9' }}>
+      <div className="absolute top-[2.48vw] right-[22vw] w-[20vw] flex flex-col tracking-tighter scale-[0.7] transform origin-top-right z-10 items-start 3xl:top-[2.48vw] 3xl:right-[22vw] 3xl:w-[20vw] 3xl:scale-[0.7]" style={{ fontSize: '6.8vw', lineHeight: '0.9' }}>
         <div className="flex items-start font-rude uppercase w-[100%]">
           <span className="text-black font-black font-sans tracking-widest mt-[0.5vw] mr-[0.5vw]" style={{ fontSize: '1.26vw' }}>01</span>
           <TextHighlighter
@@ -131,7 +131,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.1, ease: 'easeOut' }}
-        className="absolute top-[1.98vw] left-[4vw] w-[58vw] h-[23.8vw] rounded-[2vw] overflow-hidden h2h-shadow group z-10"
+        className="absolute top-[1.98vw] left-[4vw] w-[58vw] h-[23.8vw] rounded-[2vw] overflow-hidden h2h-shadow group z-10 3xl:top-[1.98vw] 3xl:left-[4vw] 3xl:w-[58vw] 3xl:h-[23.8vw] 3xl:rounded-[2vw]"
       >
         <LazyVideo
           src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1777807052/cam2_aeuzsn.webm'
@@ -145,7 +145,7 @@ export default function HomePage() {
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
-        className="absolute top-[26.78vw] left-[12vw] w-[52vw] flex justify-start items-center gap-0 z-10"
+        className="absolute top-[26.78vw] left-[12vw] w-[52vw] flex justify-start items-center gap-0 z-10 3xl:top-[26.78vw] 3xl:left-[12vw] 3xl:w-[52vw]"
       >
         <span className="font-serif-h2h font-bold tracking-tight uppercase" style={{ fontSize: '4.18vw', lineHeight: 1 }}>
           HEART
@@ -165,7 +165,7 @@ export default function HomePage() {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-        className="absolute bottom-[1.5vw] right-[1.5vw] w-[33vw] h-[25vw] justify-end rounded-[2vw] overflow-hidden h2h-shadow group z-10"
+        className="absolute bottom-[1.5vw] right-[1.5vw] w-[33vw] h-[25vw] justify-end rounded-[2vw] overflow-hidden h2h-shadow group z-10 3xl:bottom-[1.5vw] 3xl:right-[1.5vw] 3xl:w-[33vw] 3xl:h-[29vw] 3xl:rounded-[2vw]"
       >
         <LazyVideo
           src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1777807053/cam1_trivye.webm'
@@ -179,7 +179,7 @@ export default function HomePage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="absolute top-[35.7vw] left-[40vw] flex flex-col items-start font-serif-h2h font-bold tracking-wide z-10"
+        className="absolute top-[35.7vw] left-[40vw] flex flex-col items-start font-serif-h2h font-bold tracking-wide z-10 3xl:top-[35.7vw] 3xl:left-[40vw]"
         style={{ fontSize: '1.26vw', lineHeight: '1.2' }}
       >
         <div className="flex items-center gap-[0.2vw] ml-[4vw] mt-[0.74vw]">
@@ -214,7 +214,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
-        className="absolute top-[31.72vw] left-[4vw] w-[35vw] h-[13.5vw] rounded-[2vw] overflow-hidden h2h-shadow group z-10"
+        className="absolute top-[31.72vw] left-[4vw] w-[35vw] h-[13.5vw] rounded-[2vw] overflow-hidden h2h-shadow group z-10 3xl:top-[31.72vw] 3xl:left-[4vw] 3xl:w-[35vw] 3xl:h-[16vw] 3xl:rounded-[2vw]"
       >
         <img
           src={img1}
