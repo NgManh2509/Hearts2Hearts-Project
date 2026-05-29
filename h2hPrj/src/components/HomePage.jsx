@@ -165,7 +165,7 @@ export default function HomePage() {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-        className="absolute bottom-[2.5vw] right-[1.5vw] w-[33vw] h-[27vw] justify-end rounded-[2vw] overflow-hidden h2h-shadow group z-10"
+        className="absolute bottom-[1.5vw] right-[1.5vw] w-[33vw] h-[25vw] justify-end rounded-[2vw] overflow-hidden h2h-shadow group z-10"
       >
         <LazyVideo
           src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1777807053/cam1_trivye.webm'
@@ -214,7 +214,7 @@ export default function HomePage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
-        className="absolute top-[32.72vw] left-[4vw] w-[35vw] h-[13.5vw] rounded-[2vw] overflow-hidden h2h-shadow group z-10"
+        className="absolute top-[31.72vw] left-[4vw] w-[35vw] h-[13.5vw] rounded-[2vw] overflow-hidden h2h-shadow group z-10"
       >
         <img
           src={img1}
