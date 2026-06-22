@@ -10,19 +10,19 @@ const musicData = [
         id: 2,
         title: "FOCUS!",
         musicSrc: "./music/focus.mp3",
-        songCover:"https://cdn-images.dzcdn.net/images/cover/06342234b90d74114f9ded94d124e02e/1000x1000-000000-80-0-0.jpg"
+        songCover: "https://cdn-images.dzcdn.net/images/cover/06342234b90d74114f9ded94d124e02e/1000x1000-000000-80-0-0.jpg"
     },
     {
         id: 3,
         title: "RUDE! (Japanese Ver.)",
         musicSrc: "./music/rudeJP.mp3",
-        songCover:"https://cdn-images.dzcdn.net/images/cover/7d380842dfbcfe3b240d193d1cbe11c8/1000x1000-000000-80-0-0.jpg"
+        songCover: "https://cdn-images.dzcdn.net/images/cover/7d380842dfbcfe3b240d193d1cbe11c8/1000x1000-000000-80-0-0.jpg"
     },
     {
         id: 4,
         title: "STYLE",
         musicSrc: "./music/style.mp3",
-        songCover:"https://cdn-images.dzcdn.net/images/cover/a903e666dfaf6012d43e453330dd19b0/1000x1000-000000-80-0-0.jpg"
+        songCover: "https://cdn-images.dzcdn.net/images/cover/a903e666dfaf6012d43e453330dd19b0/1000x1000-000000-80-0-0.jpg"
     },
     {
         id: 5,
@@ -40,13 +40,13 @@ const musicData = [
         id: 7,
         title: "Butterflies",
         musicSrc: "./music/Butterflies.mp3",
-        songCover:"https://cdn-images.dzcdn.net/images/cover/a9f7de4c629e2808261b508008356905/1000x1000-000000-80-0-0.jpg"
+        songCover: "https://cdn-images.dzcdn.net/images/cover/a9f7de4c629e2808261b508008356905/1000x1000-000000-80-0-0.jpg"
     },
     {
         id: 8,
         title: "Flutter",
         musicSrc: "./music/Flutter.mp3",
-        songCover:"https://cdn-images.dzcdn.net/images/cover/06342234b90d74114f9ded94d124e02e/1000x1000-000000-80-0-0.jpg"
+        songCover: "https://cdn-images.dzcdn.net/images/cover/06342234b90d74114f9ded94d124e02e/1000x1000-000000-80-0-0.jpg"
     },
     {
         id: 9,
@@ -59,6 +59,36 @@ const musicData = [
         title: "Apple Pie",
         musicSrc: "./music/applePie.mp3",
         songCover: "https://cdn-images.dzcdn.net/images/cover/06342234b90d74114f9ded94d124e02e/1000x1000-000000-80-0-0.jpg"
+    },
+    {
+        id: 11,
+        title: "Lemon Tang",
+        musicSrc: "./music/LemonTang.mp3",
+        songCover: "https://cdn-images.dzcdn.net/images/cover/5c87e467d211b7f5a9131c2deccbaa97/1000x1000-000000-80-0-0.jpg"
+    },
+    {
+        id: 12,
+        title: "15-LOVE",
+        musicSrc: "./music/15-LOVE.mp3",
+        songCover: "https://cdn-images.dzcdn.net/images/cover/5c87e467d211b7f5a9131c2deccbaa97/1000x1000-000000-80-0-0.jpg"
+    },
+    {
+        id: 13,
+        title: "Baby Steps",
+        musicSrc: "./music/BabySteps.mp3",
+        songCover: "https://cdn-images.dzcdn.net/images/cover/5c87e467d211b7f5a9131c2deccbaa97/1000x1000-000000-80-0-0.jpg"
+    },
+    {
+        id: 14,
+        title: "heart emoji (♡)",
+        musicSrc: "./music/heartemoji.mp3",
+        songCover: "https://cdn-images.dzcdn.net/images/cover/5c87e467d211b7f5a9131c2deccbaa97/1000x1000-000000-80-0-0.jpg"
+    },
+    {
+        id: 15,
+        title: "Secret Recipe",
+        musicSrc: "./music/secretRecipe.mp3",
+        songCover: "https://cdn-images.dzcdn.net/images/cover/5c87e467d211b7f5a9131c2deccbaa97/1000x1000-000000-80-0-0.jpg"
     },
 
 ]
