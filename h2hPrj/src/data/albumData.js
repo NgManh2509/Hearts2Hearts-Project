@@ -92,7 +92,7 @@ const albumData = [
         ],
         albumCover: "https://cdn-images.dzcdn.net/images/cover/5c87e467d211b7f5a9131c2deccbaa97/1000x1000-000000-80-0-0.jpg",
         albumLink: 'https://open.spotify.com/album/39xlBHb1gQvMVqRZLjaTjI?si=pxZGwP7MT5yV7jy-o5Cc5w'
-    }, https
+    }
 ];
 
 export default albumData;
