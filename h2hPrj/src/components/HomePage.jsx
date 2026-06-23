@@ -134,7 +134,7 @@ export default function HomePage() {
         className="absolute top-[1.98vw] left-[4vw] w-[58vw] h-[23.8vw] rounded-[2vw] overflow-hidden h2h-shadow group z-10 3xl:top-[1.98vw] 3xl:left-[4vw] 3xl:w-[58vw] 3xl:h-[23.8vw] 3xl:rounded-[2vw]"
       >
         <LazyVideo
-          src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1777807052/cam2_aeuzsn.webm'
+          src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1782186220/videoMV/mlitujrwnntdukx5ne3g.webm'
           poster={img1}
           className="w-[100%] h-[100%] object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
         />
@@ -168,7 +168,7 @@ export default function HomePage() {
         className="absolute bottom-[1.5vw] right-[1.5vw] w-[33vw] h-[25vw] justify-end rounded-[2vw] overflow-hidden h2h-shadow group z-10 3xl:bottom-[1.5vw] 3xl:right-[1.5vw] 3xl:w-[33vw] 3xl:h-[29vw] 3xl:rounded-[2vw]"
       >
         <LazyVideo
-          src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1777807053/cam1_trivye.webm'
+          src='https://res.cloudinary.com/dqywjlje7/video/upload/f_auto,q_auto/v1782186227/videoMV/fik57jjich14ziogsiad.webm'
           poster={img1}
           className="w-[100%] h-[100%] object-cover object-[center_20%] group-hover:scale-105 transition-transform duration-700 ease-out"
         />
